@@ -27,7 +27,7 @@ const ALL_SITES = [
     entryFee: 'GHS 80',
     openingHours: '9:00 AM - 5:00 PM',
     isPremium: false,
-    image: 'https://images.unsplash.com/photo-1589825743636-4b8e933a0b4e?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
     description: 'A UNESCO World Heritage Site and former slave trade fortress built by the Swedes in 1653.',
   },
   {
@@ -40,7 +40,7 @@ const ALL_SITES = [
     entryFee: 'GHS 120',
     openingHours: '8:00 AM - 4:30 PM',
     isPremium: false,
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80',
     description: 'Famous canopy walkway suspended 30 metres above the rainforest floor.',
   },
   {
@@ -53,7 +53,7 @@ const ALL_SITES = [
     entryFee: 'GHS 150',
     openingHours: '6:00 AM - 6:00 PM',
     isPremium: false,
-    image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=600&q=80',
     description: "Ghana's largest wildlife refuge with over 93 mammal species.",
   },
   {
@@ -66,7 +66,7 @@ const ALL_SITES = [
     entryFee: 'GHS 40',
     openingHours: '8:00 AM - 10:00 PM',
     isPremium: false,
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',
     description: 'Most popular beach in Accra, known for live music and vibrant atmosphere.',
   },
   {
@@ -79,7 +79,7 @@ const ALL_SITES = [
     entryFee: 'GHS 30',
     openingHours: 'Sunrise - Sunset',
     isPremium: true,
-    image: 'https://images.unsplash.com/photo-1545167496-c1e092d383a2?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=600&q=80',
     description: 'One of the oldest mosques in West Africa, built around 1421.',
   },
   {
@@ -92,7 +92,7 @@ const ALL_SITES = [
     entryFee: 'GHS 70',
     openingHours: '9:00 AM - 5:00 PM',
     isPremium: false,
-    image: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1580746738099-b2d424ea3bc8?w=600&q=80',
     description: 'The oldest European building in sub-Saharan Africa, built by the Portuguese in 1482.',
   },
   {
@@ -105,7 +105,7 @@ const ALL_SITES = [
     entryFee: 'GHS 50',
     openingHours: '8:00 AM - 5:00 PM',
     isPremium: false,
-    image: 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=600&q=80',
     description: 'A stunning twin waterfall located in the heart of the Eastern Region.',
   },
   {
@@ -118,8 +118,8 @@ const ALL_SITES = [
     entryFee: 'GHS 60',
     openingHours: '9:00 AM - 5:00 PM',
     isPremium: false,
-    image: 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800&q=80',
-    description: "Mausoleum and museum dedicated to Ghana's first president and independence hero.",
+    image: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?w=600&q=80',
+    description: "Mausoleum and museum dedicated to Ghana's first president.",
   },
   {
     id: '9',
@@ -131,8 +131,8 @@ const ALL_SITES = [
     entryFee: 'GHS 45',
     openingHours: '7:00 AM - 6:00 PM',
     isPremium: false,
-    image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80',
-    description: "Ghana's only natural lake, formed by a meteorite impact over a million years ago.",
+    image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80',
+    description: "Ghana's only natural lake, formed by a meteorite impact.",
   },
   {
     id: '10',
@@ -144,21 +144,22 @@ const ALL_SITES = [
     entryFee: 'GHS 35',
     openingHours: '8:00 AM - 5:00 PM',
     isPremium: true,
-    image: 'https://images.unsplash.com/photo-1598439210625-5067c578f3f6?w=800&q=80',
-    description: 'Sacred crocodile pond where locals and tourists interact freely with wild crocodiles.',
+    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&q=80',
+    description: 'Sacred crocodile pond where tourists interact freely with wild crocodiles.',
   },
 ];
 
+// ── No icons — text only for reliable Android rendering ──
 const CATEGORIES = [
-  { id: 'all',        label: 'All',        icon: '🌍' },
-  { id: 'Historical', label: 'Historical', icon: '🏛️' },
-  { id: 'Nature',     label: 'Nature',     icon: '🌿' },
-  { id: 'Wildlife',   label: 'Wildlife',   icon: '🦁' },
-  { id: 'Beach',      label: 'Beach',      icon: '🏖️' },
-  { id: 'Cultural',   label: 'Cultural',   icon: '🎭' },
+  { id: 'all',        icon: 'apps-outline', label: 'All'      },
+  { id: 'Historical', icon:'library-outline', label: 'History'  },
+  { id: 'Nature',     icon:'leaf-outline', label: 'Nature'   },
+  { id: 'Wildlife',   icon:'paw-outline', label: 'Wildlife' },
+  { id: 'Beach',      icon:'beach', label: 'Beach'    },
+  { id: 'Cultural',   icon: 'drum', label: 'Cultural'  },
 ];
 
-const REGIONS = ['All Regions', 'Central', 'Greater Accra', 'Savannah', 'Eastern', 'Ashanti', 'Upper East'];
+const REGIONS = ['All Regions', 'Central', 'Greater Accra', 'Savannah', 'Eastern', 'Ashanti', 'Upper East','Western', 'Volta', 'Northern', 'Upper West'];
 
 const SORT_OPTIONS = ['Top Rated', 'Most Reviewed', 'Lowest Fee', 'A - Z'];
 
@@ -182,12 +183,12 @@ const C = {
 // ─── MAIN SCREEN ─────────────────────────────────────────────────────────────
 
 export default function ExploreScreen({ navigation }) {
-  const [searchText, setSearchText]         = useState('');
+  const [searchText, setSearchText]             = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedRegion, setSelectedRegion] = useState('All Regions');
-  const [selectedSort, setSelectedSort]     = useState('Top Rated');
-  const [showFilters, setShowFilters]       = useState(false);
-  const [viewMode, setViewMode]             = useState('grid'); // 'grid' or 'list'
+  const [selectedRegion, setSelectedRegion]     = useState('All Regions');
+  const [selectedSort, setSelectedSort]         = useState('Top Rated');
+  const [showFilters, setShowFilters]           = useState(false);
+  const [viewMode, setViewMode]                 = useState('grid');
 
   // ── Filter + Sort logic ──
   let results = ALL_SITES;
@@ -224,8 +225,7 @@ export default function ExploreScreen({ navigation }) {
   }
 
   const handleSitePress = (site) => {
-    console.log('Navigate to:', site.name);
-    // navigation.navigate('SiteDetail', { site });
+    navigation.navigate('SiteDetail', { site });
   };
 
   // ── Grid card ──
@@ -235,10 +235,14 @@ export default function ExploreScreen({ navigation }) {
       onPress={() => handleSitePress(item)}
       activeOpacity={0.88}
     >
-      <Image source={{ uri: item.image }} style={styles.gridImage} resizeMode="cover" />
+      <Image
+        source={{ uri: item.image }}
+        style={styles.gridImage}
+        resizeMode="cover"
+      />
       {item.isPremium && (
         <View style={styles.premiumBadge}>
-          <Text style={styles.premiumBadgeText}>👑</Text>
+          <Text style={styles.premiumBadgeText}>Premium</Text>
         </View>
       )}
       <TouchableOpacity style={styles.heartBtn}>
@@ -246,11 +250,11 @@ export default function ExploreScreen({ navigation }) {
       </TouchableOpacity>
       <View style={styles.gridInfo}>
         <Text style={styles.gridName} numberOfLines={1}>{item.name}</Text>
-        <View style={styles.gridMeta}>
-          <Text style={styles.gridLocation} numberOfLines={1}>📍 {item.location}</Text>
-        </View>
+        <Text style={styles.gridLocation} numberOfLines={1}>
+          {item.location}
+        </Text>
         <View style={styles.gridBottom}>
-          <Text style={styles.gridRating}>⭐ {item.rating}</Text>
+          <Text style={styles.gridRating}>★ {item.rating}</Text>
           <Text style={styles.gridFee}>{item.entryFee}</Text>
         </View>
       </View>
@@ -264,22 +268,30 @@ export default function ExploreScreen({ navigation }) {
       onPress={() => handleSitePress(item)}
       activeOpacity={0.88}
     >
-      <Image source={{ uri: item.image }} style={styles.listImage} resizeMode="cover" />
+      <Image
+        source={{ uri: item.image }}
+        style={styles.listImage}
+        resizeMode="cover"
+      />
       {item.isPremium && (
         <View style={styles.listPremiumBadge}>
-          <Text style={styles.premiumBadgeText}>👑</Text>
+          <Text style={styles.premiumBadgeText}>Premium</Text>
         </View>
       )}
       <View style={styles.listInfo}>
         <View style={styles.listTop}>
           <Text style={styles.listCategory}>{item.category}</Text>
-          {item.isPremium && <Text style={styles.listPremiumText}>Premium</Text>}
+          {item.isPremium && (
+            <Text style={styles.listPremiumText}>Premium</Text>
+          )}
         </View>
         <Text style={styles.listName} numberOfLines={1}>{item.name}</Text>
         <Text style={styles.listDesc} numberOfLines={2}>{item.description}</Text>
-        <Text style={styles.listLocation}>📍 {item.location}</Text>
+        <Text style={styles.listLocation}>{item.location}</Text>
         <View style={styles.listBottom}>
-          <Text style={styles.listRating}>⭐ {item.rating}  ({item.reviews.toLocaleString()})</Text>
+          <Text style={styles.listRating}>
+            ★ {item.rating} ({item.reviews.toLocaleString()})
+          </Text>
           <Text style={styles.listFee}>{item.entryFee}</Text>
         </View>
       </View>
@@ -301,7 +313,7 @@ export default function ExploreScreen({ navigation }) {
           onPress={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
         >
           <Text style={styles.viewToggleText}>
-            {viewMode === 'grid' ? '☰ List' : '⊞ Grid'}
+            {viewMode === 'grid' ? 'List View' : 'Grid View'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -309,7 +321,6 @@ export default function ExploreScreen({ navigation }) {
       {/* ── SEARCH BAR ── */}
       <View style={styles.searchWrap}>
         <View style={styles.searchBar}>
-          <Text style={styles.searchIcon}>🔍</Text>
           <TextInput
             placeholder="Search sites, regions, categories..."
             placeholderTextColor={C.textMuted}
@@ -319,7 +330,7 @@ export default function ExploreScreen({ navigation }) {
           />
           {searchText.length > 0 && (
             <TouchableOpacity onPress={() => setSearchText('')}>
-              <Text style={{ fontSize: 16, color: C.textMuted }}>✕</Text>
+              <Text style={styles.clearText}>X</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -327,7 +338,12 @@ export default function ExploreScreen({ navigation }) {
           style={[styles.filterBtn, showFilters && styles.filterBtnActive]}
           onPress={() => setShowFilters(!showFilters)}
         >
-          <Text style={styles.filterIcon}>⚙</Text>
+          <Text style={[
+            styles.filterBtnText,
+            showFilters && styles.filterBtnTextActive,
+          ]}>
+            Filter
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -341,10 +357,17 @@ export default function ExploreScreen({ navigation }) {
           <TouchableOpacity
             key={cat.id}
             onPress={() => setSelectedCategory(cat.id)}
-            style={[styles.pill, selectedCategory === cat.id && styles.pillActive]}
+            style={[
+              styles.pill,
+              selectedCategory === cat.id && styles.pillActive,
+            ]}
           >
-            <Text style={styles.pillIcon}>{cat.icon}</Text>
-            <Text style={[styles.pillText, selectedCategory === cat.id && styles.pillTextActive]}>
+            <Text
+              style={[
+                styles.pillText,
+                selectedCategory === cat.id && styles.pillTextActive,
+              ]}
+            >
               {cat.label}
             </Text>
           </TouchableOpacity>
@@ -355,7 +378,11 @@ export default function ExploreScreen({ navigation }) {
       {showFilters && (
         <View style={styles.filterPanel}>
           <Text style={styles.filterLabel}>Region</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 10 }}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ marginBottom: 12 }}
+          >
             <View style={{ flexDirection: 'row', gap: 8, paddingVertical: 4 }}>
               {REGIONS.map((region) => (
                 <TouchableOpacity
@@ -403,7 +430,6 @@ export default function ExploreScreen({ navigation }) {
       {/* ── RESULTS ── */}
       {results.length === 0 ? (
         <View style={styles.emptyState}>
-          <Text style={styles.emptyIcon}>🔍</Text>
           <Text style={styles.emptyTitle}>No results found</Text>
           <Text style={styles.emptySub}>Try a different search or filter</Text>
           <TouchableOpacity
@@ -460,7 +486,7 @@ const styles = StyleSheet.create({
   viewToggle: {
     backgroundColor: C.primary,
     paddingHorizontal: 14,
-    paddingVertical: 7,
+    paddingVertical: 8,
     borderRadius: 20,
   },
   viewToggleText: { fontSize: 12, color: C.white, fontWeight: '600' },
@@ -480,43 +506,73 @@ const styles = StyleSheet.create({
     backgroundColor: C.card,
     borderRadius: 28,
     paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderWidth: 0.5,
+    paddingVertical: 12,
+    borderWidth: 1,
     borderColor: C.border,
-    gap: 8,
   },
-  searchIcon:  { fontSize: 16 },
-  searchInput: { flex: 1, fontSize: 13, color: C.textPrimary },
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+    color: C.textPrimary,
+  },
+  clearText: {
+    fontSize: 14,
+    color: C.textMuted,
+    paddingHorizontal: 4,
+  },
   filterBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 28,
     backgroundColor: C.card,
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: C.border,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  filterBtnActive: { backgroundColor: C.primary, borderColor: C.primary },
-  filterIcon: { fontSize: 18 },
+  filterBtnActive: {
+    backgroundColor: C.primary,
+    borderColor: C.primary,
+  },
+  filterBtnText: {
+    fontSize: 13,
+    color: C.textSecondary,
+    fontWeight: '600',
+  },
+  filterBtnTextActive: {
+    color: C.white,
+  },
 
   // Pills
-  pillsRow: { paddingHorizontal: 16, paddingBottom: 12, gap: 8 },
-  pill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-    borderRadius: 20,
-    backgroundColor: C.card,
-    borderWidth: 0.5,
-    borderColor: C.border,
-    gap: 5,
+  pillsRow: {
+    paddingHorizontal: 16,
+    paddingBottom: 14,
+    paddingTop: 4,
+    gap: 10,
   },
-  pillActive:     { backgroundColor: C.primary, borderColor: C.primary },
-  pillIcon:       { fontSize: 13 },
-  pillText:       { fontSize: 12, color: C.textSecondary, fontWeight: '500' },
-  pillTextActive: { color: C.white },
+  pill: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 30,
+    backgroundColor: C.card,
+    borderWidth: 1.5,
+    borderColor: C.border,
+  },
+  pillActive: {
+    backgroundColor: C.primary,
+    borderColor: C.primary,
+  },
+  pillText: {
+    fontSize: 14,
+    color: C.textSecondary,
+    fontWeight: '600',
+  },
+  pillTextActive: {
+    color: C.white,
+    fontWeight: '700',
+  },
 
   // Filter panel
   filterPanel: {
@@ -537,16 +593,16 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   filterChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
     borderRadius: 16,
     backgroundColor: C.bg,
     borderWidth: 0.5,
     borderColor: C.border,
   },
-  filterChipActive:    { backgroundColor: C.primary, borderColor: C.primary },
-  filterChipText:      { fontSize: 12, color: C.textSecondary },
-  filterChipTextActive:{ color: C.white, fontWeight: '600' },
+  filterChipActive:     { backgroundColor: C.primary, borderColor: C.primary },
+  filterChipText:       { fontSize: 12, color: C.textSecondary },
+  filterChipTextActive: { color: C.white, fontWeight: '600' },
 
   // Grid
   gridContainer: { paddingHorizontal: 12, paddingBottom: 100 },
@@ -559,14 +615,13 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: C.border,
   },
-  gridImage:  { width: '100%', height: 120 },
-  gridInfo:   { padding: 10 },
-  gridName:   { fontSize: 13, fontWeight: '700', color: C.textPrimary, marginBottom: 4 },
-  gridMeta:   { marginBottom: 6 },
-  gridLocation:{ fontSize: 10, color: C.textMuted },
-  gridBottom: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  gridRating: { fontSize: 11, color: C.textSecondary, fontWeight: '600' },
-  gridFee:    { fontSize: 11, color: C.primary, fontWeight: '700' },
+  gridImage:    { width: '100%', height: 130 },
+  gridInfo:     { padding: 10 },
+  gridName:     { fontSize: 13, fontWeight: '700', color: C.textPrimary, marginBottom: 4 },
+  gridLocation: { fontSize: 10, color: C.textMuted, marginBottom: 6 },
+  gridBottom:   { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  gridRating:   { fontSize: 11, color: C.textSecondary, fontWeight: '600' },
+  gridFee:      { fontSize: 11, color: C.primary, fontWeight: '700' },
 
   // Badges
   premiumBadge: {
@@ -575,12 +630,14 @@ const styles = StyleSheet.create({
     left: 8,
     backgroundColor: C.premium,
     borderRadius: 10,
-    width: 26,
-    height: 26,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
   },
-  premiumBadgeText: { fontSize: 12 },
+  premiumBadgeText: {
+    fontSize: 10,
+    color: C.white,
+    fontWeight: '700',
+  },
   heartBtn: {
     position: 'absolute',
     top: 8,
@@ -592,7 +649,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  heartIcon: { fontSize: 14 },
+  heartIcon: { fontSize: 14, color: C.textPrimary },
 
   // List
   listContainer: { paddingHorizontal: 16, paddingBottom: 100 },
@@ -612,10 +669,8 @@ const styles = StyleSheet.create({
     left: 8,
     backgroundColor: C.premium,
     borderRadius: 10,
-    width: 26,
-    height: 26,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
   },
   listInfo:        { flex: 1, padding: 12, justifyContent: 'space-between' },
   listTop:         { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
@@ -636,7 +691,6 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     gap: 10,
   },
-  emptyIcon:  { fontSize: 48 },
   emptyTitle: { fontSize: 18, fontWeight: '700', color: C.textPrimary },
   emptySub:   { fontSize: 13, color: C.textMuted },
   resetBtn: {

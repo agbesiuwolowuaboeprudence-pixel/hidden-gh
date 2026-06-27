@@ -169,8 +169,8 @@ export default function HomeScreen({ navigation }) {
     : filteredSites;
 
   const handleSitePress = (site) => {
-    console.log('Pressed:', site.name);
-  };
+  navigation.navigate('SiteDetail', { site });
+};
 
   return (
     <View style={styles.root}>
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: C.border,
   },
-  siteCardImage: { width: '100%', height: 100, borderTopLeftRadius: 14, borderTopRightRadius: 14 },
+  siteCardImage: { width: '100%', height: 130 },
   premiumBadge: {
     position: 'absolute',
     top: 8,

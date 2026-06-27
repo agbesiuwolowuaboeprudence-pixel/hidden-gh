@@ -2,14 +2,15 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+// ─── SCREEN IMPORTS ──────────────────────────────────────────────────────────
 import HomeScreen from '../screens/HomeScreen';
 import ExploreScreen from '../screens/ExploreScreen';
+import SiteDetailScreen from '../screens/SiteDetailScreen';
 
 // ─── PLACEHOLDER SCREENS ─────────────────────────────────────────────────────
-
-
-
 function ScanScreen() {
   return (
     <View style={ph.container}>
@@ -41,7 +42,6 @@ function ProfileScreen() {
 }
 
 // ─── TAB ICONS ───────────────────────────────────────────────────────────────
-
 function TabIcon({ emoji, label, focused }) {
   return (
     <View style={tb.wrap}>
@@ -61,81 +61,89 @@ function ScanTabIcon({ focused }) {
   );
 }
 
-// ─── NAVIGATOR ───────────────────────────────────────────────────────────────
-
+// ─── NAVIGATORS ──────────────────────────────────────────────────────────────
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function HomeTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: '#FFFFFF',
+          borderTopColor: '#E8E8E8',
+          borderTopWidth: 0.5,
+          height: 70,
+          paddingBottom: 10,
+          paddingTop: 6,
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon emoji="🏠" label="Home" focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon emoji="🔍" label="Explore" focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Scan"
+        component={ScanScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <ScanTabIcon focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Bookings"
+        component={BookingsScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon emoji="🏨" label="Bookings" focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon emoji="👤" label="Profile" focused={focused} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 export default function AppNavigator() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={{
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarStyle: {
-              backgroundColor: '#FFFFFF',
-              borderTopColor: '#E8E8E8',
-              borderTopWidth: 0.5,
-              height: 70,
-              paddingBottom: 10,
-              paddingTop: 6,
-            },
-          }}
-        >
-          <Tab.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <TabIcon emoji="🏠" label="Home" focused={focused} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Explore"
-            component={ExploreScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <TabIcon emoji="🔍" label="Explore" focused={focused} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Scan"
-            component={ScanScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <ScanTabIcon focused={focused} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Bookings"
-            component={BookingsScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <TabIcon emoji="🏨" label="Bookings" focused={focused} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <TabIcon emoji="👤" label="Profile" focused={focused} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Main" component={HomeTabs} />
+          <Stack.Screen name="SiteDetail" component={SiteDetailScreen} />
+        </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );
 }
 
 // ─── STYLES ──────────────────────────────────────────────────────────────────
-
 const tb = StyleSheet.create({
   wrap: {
     alignItems: 'center',
