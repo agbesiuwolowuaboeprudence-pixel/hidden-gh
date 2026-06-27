@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: C.border,
   },
-  siteCardImage: { width: '100%', height: 130 },
+  siteCardImage: { width: '100%', height: 100, borderTopLeftRadius: 14, borderTopRightRadius: 14 },
   premiumBadge: {
     position: 'absolute',
     top: 8,

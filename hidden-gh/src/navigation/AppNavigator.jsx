@@ -4,18 +4,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from '../screens/HomeScreen';
+import ExploreScreen from '../screens/ExploreScreen';
 
 // ─── PLACEHOLDER SCREENS ─────────────────────────────────────────────────────
 
-function ExploreScreen() {
-  return (
-    <View style={ph.container}>
-      <Text style={ph.icon}>🔍</Text>
-      <Text style={ph.title}>Explore</Text>
-      <Text style={ph.sub}>Coming soon</Text>
-    </View>
-  );
-}
+
 
 function ScanScreen() {
   return (
