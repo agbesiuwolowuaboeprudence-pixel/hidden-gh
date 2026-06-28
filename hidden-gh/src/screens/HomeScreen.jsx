@@ -155,7 +155,6 @@ function HeroBanner({ searchText, setSearchText }) {
       />
       <View style={styles.heroOverlay} />
 
-      {/* Top bar */}
       <View style={styles.heroTop}>
         <TouchableOpacity style={styles.menuBtn}>
           <Text style={styles.menuIcon}>☰</Text>
@@ -173,13 +172,11 @@ function HeroBanner({ searchText, setSearchText }) {
         </View>
       </View>
 
-      {/* Hero text */}
       <View style={styles.heroContent}>
         <Text style={styles.heroTagline}>Discover. Explore. Experience.</Text>
         <Text style={styles.heroTitle}>Explore Ghana's{'\n'}Hidden Treasures</Text>
       </View>
 
-      {/* Search bar */}
       <View style={styles.searchRow}>
         <View style={styles.searchBar}>
           <Text style={styles.searchIcon}>🔍</Text>
@@ -201,7 +198,6 @@ function HeroBanner({ searchText, setSearchText }) {
         </TouchableOpacity>
       </View>
 
-      {/* Stats row */}
       <View style={styles.statsRow}>
         <View style={styles.statItem}>
           <Text style={styles.statNumber}>200+</Text>
@@ -266,9 +262,9 @@ function QuickActions({ navigation }) {
               if (action.id === 'talk' || action.id === 'message') {
                 navigation.navigate('GuideList');
               } else if (action.id === 'hotels' || action.id === 'stays') {
-                console.log('Navigate to Hotels');
+                navigation.navigate('Bookings');
               } else if (action.id === 'map') {
-                console.log('Navigate to Map');
+                navigation.navigate('Map');
               }
             }}
           >
@@ -312,29 +308,36 @@ export default function HomeScreen({ navigation }) {
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
       <ScrollView showsVerticalScrollIndicator={false}>
 
-        {/* HERO */}
         <HeroBanner searchText={searchText} setSearchText={setSearchText} />
 
         <View style={styles.body}>
 
           {/* CATEGORY PILLS */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.pillsRow}
-          >
-            {CATEGORIES.map((cat) => (
-              <TouchableOpacity
-                key={cat}
-                onPress={() => setSelectedCategory(cat)}
-                style={[styles.pill, selectedCategory === cat && styles.pillActive]}
-              >
-                <Text style={[styles.pillText, selectedCategory === cat && styles.pillTextActive]}>
-                  {cat}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <View style={styles.pillsContainer}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.pillsRow}
+            >
+              {CATEGORIES.map((cat) => (
+                <TouchableOpacity
+                  key={cat}
+                  onPress={() => setSelectedCategory(cat)}
+                  style={[
+                    styles.pill,
+                    selectedCategory === cat && styles.pillActive,
+                  ]}
+                >
+                  <Text style={[
+                    styles.pillText,
+                    selectedCategory === cat && styles.pillTextActive,
+                  ]}>
+                    {cat}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
 
           {/* POPULAR DESTINATIONS */}
           <View style={styles.section}>
@@ -446,8 +449,12 @@ const styles = StyleSheet.create({
   logoWrap:   { flexDirection: 'row', alignItems: 'baseline' },
   logoHidden: { fontSize: 18, color: C.white, fontStyle: 'italic', fontWeight: '600' },
   logoGhana:  { fontSize: 20, color: C.accent, fontWeight: '800', letterSpacing: 1 },
-  heroTopRight: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  bellIcon:   { fontSize: 18 },
+  heroTopRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  bellIcon: { fontSize: 18 },
   avatar: {
     width: 32,
     height: 32,
@@ -535,22 +542,30 @@ const styles = StyleSheet.create({
   body: { flex: 1 },
 
   // Category pills
+  pillsContainer: {
+    height: 52,
+    justifyContent: 'center',
+    backgroundColor: C.bg,
+  },
   pillsRow: {
     paddingHorizontal: 16,
-    paddingVertical: 16,
     gap: 8,
+    alignItems: 'center',
+    height: 52,
   },
   pill: {
+    height: 32,
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    borderRadius: 16,
     backgroundColor: C.card,
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: C.border,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   pillActive:     { backgroundColor: C.primary, borderColor: C.primary },
-  pillText:       { fontSize: 13, color: C.textSecondary, fontWeight: '500' },
-  pillTextActive: { color: C.white },
+  pillText:       { fontSize: 12, color: C.textSecondary, fontWeight: '600' },
+  pillTextActive: { color: C.white, fontWeight: '700' },
 
   // Section
   section: { marginBottom: 24 },
@@ -667,7 +682,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingHorizontal: 12,
   },
-  quickAction:     { alignItems: 'center', gap: 8 },
+  quickAction: { alignItems: 'center', gap: 8 },
   quickActionIcon: {
     width: 54,
     height: 54,

@@ -12,6 +12,7 @@ import SiteDetailScreen from '../screens/SiteDetailScreen';
 import GuideListScreen from '../screens/GuideListScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import BookingsScreen from '../screens/BookingsScreen';
+import MapScreen from '../screens/MapScreen';
 
 // ─── PLACEHOLDER SCREENS ─────────────────────────────────────────────────────
 
@@ -74,6 +75,15 @@ function HomeTabs() {
     ),
   }}
 />
+ <Tab.Screen
+        name="Map"
+        component={MapScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon emoji="🗺" label="Map" focused={focused} />
+          ),
+        }}
+      />
       <Tab.Screen
   name="Bookings"
   component={BookingsScreen}
