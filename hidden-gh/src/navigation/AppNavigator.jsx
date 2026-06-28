@@ -12,15 +12,6 @@ import SiteDetailScreen from '../screens/SiteDetailScreen';
 import GuideListScreen from '../screens/GuideListScreen';
 
 // ─── PLACEHOLDER SCREENS ─────────────────────────────────────────────────────
-function ScanScreen() {
-  return (
-    <View style={ph.container}>
-      <Text style={ph.icon}>📷</Text>
-      <Text style={ph.title}>Scan</Text>
-      <Text style={ph.sub}>Coming soon</Text>
-    </View>
-  );
-}
 
 function BookingsScreen() {
   return (
@@ -52,15 +43,7 @@ function TabIcon({ emoji, label, focused }) {
   );
 }
 
-function ScanTabIcon({ focused }) {
-  return (
-    <View style={tb.scanOuter}>
-      <View style={[tb.scanInner, focused && tb.scanFocused]}>
-        <Text style={tb.scanEmoji}>📷</Text>
-      </View>
-    </View>
-  );
-}
+
 
 // ─── NAVIGATORS ──────────────────────────────────────────────────────────────
 const Tab = createBottomTabNavigator();
@@ -96,28 +79,28 @@ function HomeTabs() {
         component={ExploreScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon emoji="🔍" label="Explore" focused={focused} />
+            <TabIcon emoji="🌍" label="Explore" focused={focused} />
           ),
         }}
       />
       <Tab.Screen
-        name="Scan"
-        component={ScanScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <ScanTabIcon focused={focused} />
-          ),
-        }}
-      />
+  name="Guides"
+  component={GuideListScreen}
+  options={{
+    tabBarIcon: ({ focused }) => (
+      <TabIcon emoji="🧭" label="Guides" focused={focused} />
+    ),
+  }}
+/>
       <Tab.Screen
-        name="Bookings"
-        component={BookingsScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon emoji="🏨" label="Bookings" focused={focused} />
-          ),
-        }}
-      />
+  name="Bookings"
+  component={BookingsScreen}
+  options={{
+    tabBarIcon: ({ focused }) => (
+      <TabIcon emoji="🛒" label="Bookings" focused={focused} />
+    ),
+  }}
+/>
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}

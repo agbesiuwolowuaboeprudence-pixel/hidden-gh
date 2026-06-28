@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -15,92 +15,7 @@ import {
 
 const { width } = Dimensions.get('window');
 
-const UNSPLASH_ACCESS_KEY = 'YOUR_UNSPLASH_ACCESS_KEY';
-const UNSPLASH_BASE = 'https://api.unsplash.com';
-const WIKIPEDIA_BASE = 'https://en.wikipedia.org/api/rest_v1';
-
-const FALLBACK_SITES = [
-  {
-    id: '1',
-    name: 'Cape Coast Castle',
-    location: 'Cape Coast, Central Region',
-    category: 'Historical',
-    rating: 4.8,
-    entryFee: 'GHS 80',
-    openingHours: '9:00 AM - 5:00 PM',
-    isPremium: false,
-    unsplashQuery: 'Cape Coast Castle Ghana',
-    wikipediaTitle: 'Cape_Coast_Castle',
-    image: 'https://images.unsplash.com/photo-1589825743636-4b8e933a0b4e?w=800&q=80',
-    description: 'A UNESCO World Heritage Site and former slave trade fortress.',
-  },
-  {
-    id: '2',
-    name: 'Kakum National Park',
-    location: 'Central Region, Ghana',
-    category: 'Nature',
-    rating: 4.7,
-    entryFee: 'GHS 120',
-    openingHours: '8:00 AM - 4:30 PM',
-    isPremium: false,
-    unsplashQuery: 'rainforest canopy walkway Ghana',
-    wikipediaTitle: 'Kakum_National_Park',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80',
-    description: 'Famous canopy walkway 30 metres above the rainforest floor.',
-  },
-  {
-    id: '3',
-    name: 'Mole National Park',
-    location: 'Damongo, Savannah Region',
-    category: 'Wildlife',
-    rating: 4.9,
-    entryFee: 'GHS 150',
-    openingHours: '6:00 AM - 6:00 PM',
-    isPremium: false,
-    unsplashQuery: 'elephants savanna Africa wildlife',
-    wikipediaTitle: 'Mole_National_Park',
-    image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&q=80',
-    description: "Ghana's largest wildlife refuge with over 93 mammal species.",
-  },
-  {
-    id: '4',
-    name: 'Labadi Beach',
-    location: 'Accra, Greater Accra',
-    category: 'Beach',
-    rating: 4.5,
-    entryFee: 'GHS 40',
-    openingHours: '8:00 AM - 10:00 PM',
-    isPremium: false,
-    unsplashQuery: 'tropical beach Africa sunny',
-    wikipediaTitle: 'Labadi_Beach',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
-    description: 'Most popular beach in Accra, known for live music.',
-  },
-  {
-    id: '5',
-    name: 'Larabanga Mosque',
-    location: 'Larabanga, Savannah Region',
-    category: 'Cultural',
-    rating: 4.6,
-    entryFee: 'GHS 30',
-    openingHours: 'Sunrise - Sunset',
-    isPremium: true,
-    unsplashQuery: 'ancient mud mosque West Africa',
-    wikipediaTitle: 'Larabanga_Mosque',
-    image: 'https://images.unsplash.com/photo-1545167496-c1e092d383a2?w=800&q=80',
-    description: 'One of the oldest mosques in West Africa, built around 1421.',
-  },
-];
-
-const CATEGORIES = ['All', 'Historical', 'Nature', 'Wildlife', 'Beach', 'Cultural'];
-
-const QUICK_ACTIONS = [
-  { id: 'talk',    icon: '🎥', label: 'Talk to\na Guide' },
-  { id: 'message', icon: '💬', label: 'Message\na Guide' },
-  { id: 'hotels',  icon: '🏨', label: 'Book\nHotels' },
-  { id: 'stays',   icon: '🏡', label: 'Guide\nStays' },
-  { id: 'map',     icon: '📍', label: 'View\nMap' },
-];
+// ─── COLORS ──────────────────────────────────────────────────────────────────
 
 const C = {
   primary:       '#1B5E3B',
@@ -117,44 +32,264 @@ const C = {
   premium:       '#C9A84C',
 };
 
-async function fetchUnsplashImage(query) {
-  try {
-    const res = await fetch(
-      `${UNSPLASH_BASE}/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
-      { headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` } }
-    );
-    const data = await res.json();
-    if (data.results && data.results.length > 0) {
-      return data.results[0].urls.regular;
-    }
-  } catch (e) {
-    console.log('Unsplash error:', e.message);
-  }
-  return null;
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const FALLBACK_SITES = [
+  {
+    id: '1',
+    name: 'Cape Coast Castle',
+    location: 'Cape Coast, Central Region',
+    category: 'Historical',
+    rating: 4.8,
+    entryFee: 'GHS 80',
+    openingHours: '9:00 AM - 5:00 PM',
+    isPremium: false,
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
+    description: 'A UNESCO World Heritage Site and former slave trade fortress.',
+  },
+  {
+    id: '2',
+    name: 'Kakum National Park',
+    location: 'Central Region, Ghana',
+    category: 'Nature',
+    rating: 4.7,
+    entryFee: 'GHS 120',
+    openingHours: '8:00 AM - 4:30 PM',
+    isPremium: false,
+    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80',
+    description: 'Famous canopy walkway 30 metres above the rainforest floor.',
+  },
+  {
+    id: '3',
+    name: 'Mole National Park',
+    location: 'Damongo, Savannah Region',
+    category: 'Wildlife',
+    rating: 4.9,
+    entryFee: 'GHS 150',
+    openingHours: '6:00 AM - 6:00 PM',
+    isPremium: false,
+    image: 'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=600&q=80',
+    description: "Ghana's largest wildlife refuge with over 93 mammal species.",
+  },
+  {
+    id: '4',
+    name: 'Labadi Beach',
+    location: 'Accra, Greater Accra',
+    category: 'Beach',
+    rating: 4.5,
+    entryFee: 'GHS 40',
+    openingHours: '8:00 AM - 10:00 PM',
+    isPremium: false,
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',
+    description: 'Most popular beach in Accra, known for live music.',
+  },
+  {
+    id: '5',
+    name: 'Larabanga Mosque',
+    location: 'Larabanga, Savannah Region',
+    category: 'Cultural',
+    rating: 4.6,
+    entryFee: 'GHS 30',
+    openingHours: 'Sunrise - Sunset',
+    isPremium: true,
+    image: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?w=600&q=80',
+    description: 'One of the oldest mosques in West Africa, built around 1421.',
+  },
+  {
+    id: '6',
+    name: 'Elmina Castle',
+    location: 'Elmina, Central Region',
+    category: 'Historical',
+    rating: 4.7,
+    entryFee: 'GHS 70',
+    openingHours: '9:00 AM - 5:00 PM',
+    isPremium: false,
+    image: 'https://images.unsplash.com/photo-1580746738099-b2d424ea3bc8?w=600&q=80',
+    description: 'The oldest European building in sub-Saharan Africa.',
+  },
+  {
+    id: '7',
+    name: 'Boti Falls',
+    location: 'Boti, Eastern Region',
+    category: 'Nature',
+    rating: 4.5,
+    entryFee: 'GHS 50',
+    openingHours: '8:00 AM - 5:00 PM',
+    isPremium: false,
+    image: 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=600&q=80',
+    description: 'A stunning twin waterfall in the Eastern Region.',
+  },
+  {
+    id: '8',
+    name: 'Lake Bosomtwe',
+    location: 'Ashanti Region',
+    category: 'Nature',
+    rating: 4.7,
+    entryFee: 'GHS 45',
+    openingHours: '7:00 AM - 6:00 PM',
+    isPremium: false,
+    image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80',
+    description: "Ghana's only natural lake formed by a meteorite impact.",
+  },
+];
+
+const CATEGORIES = ['All', 'Historical', 'Nature', 'Wildlife', 'Beach', 'Cultural'];
+
+const QUICK_ACTIONS = [
+  { id: 'talk',    icon: '🎥', label: 'Talk to\na Guide' },
+  { id: 'message', icon: '💬', label: 'Message\na Guide' },
+  { id: 'hotels',  icon: '🏨', label: 'Book\nHotels' },
+  { id: 'stays',   icon: '🏡', label: 'Guide\nStays' },
+  { id: 'map',     icon: '📍', label: 'View\nMap' },
+];
+
+// ─── HERO BANNER ─────────────────────────────────────────────────────────────
+
+function HeroBanner({ searchText, setSearchText }) {
+  return (
+    <View style={styles.heroContainer}>
+      <Image
+        source={{ uri: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80' }}
+        style={styles.heroImage}
+        resizeMode="cover"
+      />
+      <View style={styles.heroOverlay} />
+
+      {/* Top bar */}
+      <View style={styles.heroTop}>
+        <TouchableOpacity style={styles.menuBtn}>
+          <Text style={styles.menuIcon}>☰</Text>
+        </TouchableOpacity>
+        <View style={styles.logoWrap}>
+          <Text style={styles.logoHidden}>Hidden </Text>
+          <Text style={styles.logoGhana}>GH★NA</Text>
+        </View>
+        <View style={styles.heroTopRight}>
+          <Text style={styles.bellIcon}>🔔</Text>
+          <Image
+            source={{ uri: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&q=80' }}
+            style={styles.avatar}
+          />
+        </View>
+      </View>
+
+      {/* Hero text */}
+      <View style={styles.heroContent}>
+        <Text style={styles.heroTagline}>Discover. Explore. Experience.</Text>
+        <Text style={styles.heroTitle}>Explore Ghana's{'\n'}Hidden Treasures</Text>
+      </View>
+
+      {/* Search bar */}
+      <View style={styles.searchRow}>
+        <View style={styles.searchBar}>
+          <Text style={styles.searchIcon}>🔍</Text>
+          <TextInput
+            placeholder="Search tourist sites, cities, hotels..."
+            placeholderTextColor={C.textMuted}
+            style={styles.searchInput}
+            value={searchText}
+            onChangeText={setSearchText}
+          />
+          {searchText.length > 0 && (
+            <TouchableOpacity onPress={() => setSearchText('')}>
+              <Text style={{ fontSize: 16, color: C.textMuted }}>✕</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        <TouchableOpacity style={styles.filterBtn}>
+          <Text style={styles.filterIcon}>⚙</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Stats row */}
+      <View style={styles.statsRow}>
+        <View style={styles.statItem}>
+          <Text style={styles.statNumber}>200+</Text>
+          <Text style={styles.statLabel}>Sites</Text>
+        </View>
+        <View style={styles.statDivider} />
+        <View style={styles.statItem}>
+          <Text style={styles.statNumber}>50+</Text>
+          <Text style={styles.statLabel}>Guides</Text>
+        </View>
+        <View style={styles.statDivider} />
+        <View style={styles.statItem}>
+          <Text style={styles.statNumber}>16</Text>
+          <Text style={styles.statLabel}>Regions</Text>
+        </View>
+        <View style={styles.statDivider} />
+        <View style={styles.statItem}>
+          <Text style={styles.statNumber}>4.8★</Text>
+          <Text style={styles.statLabel}>Rating</Text>
+        </View>
+      </View>
+    </View>
+  );
 }
 
-async function fetchWikipediaSummary(title) {
-  try {
-    const res = await fetch(`${WIKIPEDIA_BASE}/page/summary/${title}`);
-    const data = await res.json();
-    if (data.extract) {
-      const sentences = data.extract.split('. ');
-      return sentences.slice(0, 2).join('. ') + '.';
-    }
-  } catch (e) {
-    console.log('Wikipedia error:', e.message);
-  }
-  return null;
+// ─── PREMIUM BANNER ───────────────────────────────────────────────────────────
+
+function PremiumBanner() {
+  return (
+    <View style={styles.premiumBanner}>
+      <View style={styles.premiumLeft}>
+        <Text style={styles.premiumCrown}>👑</Text>
+        <View style={styles.premiumTextWrap}>
+          <Text style={styles.premiumTitle}>Unlock the True History of Ghana</Text>
+          <Text style={styles.premiumDesc}>
+            In-depth history, 3D tours, VR experiences and more.
+          </Text>
+        </View>
+      </View>
+      <TouchableOpacity style={styles.premiumBtn}>
+        <Text style={styles.premiumBtnText}>Go Premium</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
+
+// ─── QUICK ACTIONS ────────────────────────────────────────────────────────────
+
+function QuickActions({ navigation }) {
+  return (
+    <View style={styles.section}>
+      <Text style={[styles.sectionTitle, { paddingHorizontal: 16, marginBottom: 14 }]}>
+        What would you like to do?
+      </Text>
+      <View style={styles.quickActionsRow}>
+        {QUICK_ACTIONS.map((action) => (
+          <TouchableOpacity
+            key={action.id}
+            style={styles.quickAction}
+            activeOpacity={0.75}
+            onPress={() => {
+              if (action.id === 'talk' || action.id === 'message') {
+                navigation.navigate('GuideList');
+              } else if (action.id === 'hotels' || action.id === 'stays') {
+                console.log('Navigate to Hotels');
+              } else if (action.id === 'map') {
+                console.log('Navigate to Map');
+              }
+            }}
+          >
+            <View style={styles.quickActionIcon}>
+              <Text style={styles.quickActionEmoji}>{action.icon}</Text>
+            </View>
+            <Text style={styles.quickActionLabel}>{action.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+// ─── MAIN SCREEN ─────────────────────────────────────────────────────────────
 
 export default function HomeScreen({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [sites, setSites] = useState(FALLBACK_SITES);
-  const [heroImage, setHeroImage] = useState(
-    'https://images.unsplash.com/photo-1589825743636-4b8e933a0b4e?w=1200&q=80'
-  );
-  const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState('');
+  const [sites]                                 = useState(FALLBACK_SITES);
+  const [loading]                               = useState(false);
+  const [searchText, setSearchText]             = useState('');
 
   const filteredSites =
     selectedCategory === 'All'
@@ -169,8 +304,8 @@ export default function HomeScreen({ navigation }) {
     : filteredSites;
 
   const handleSitePress = (site) => {
-  navigation.navigate('SiteDetail', { site });
-};
+    navigation.navigate('SiteDetail', { site });
+  };
 
   return (
     <View style={styles.root}>
@@ -178,55 +313,7 @@ export default function HomeScreen({ navigation }) {
       <ScrollView showsVerticalScrollIndicator={false}>
 
         {/* HERO */}
-        <View style={styles.heroContainer}>
-          <Image source={{ uri: heroImage }} style={styles.heroImage} resizeMode="cover" />
-          <View style={styles.heroOverlay} />
-
-          <View style={styles.heroTop}>
-            <TouchableOpacity>
-              <Text style={styles.menuIcon}>☰</Text>
-            </TouchableOpacity>
-            <View style={styles.logoWrap}>
-              <Text style={styles.logoHidden}>Hidden </Text>
-              <Text style={styles.logoGhana}>GH★NA</Text>
-            </View>
-            <View style={styles.heroTopRight}>
-              <Text style={styles.bellIcon}>🔔</Text>
-              <Image
-                source={{ uri: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&q=80' }}
-                style={styles.avatar}
-              />
-            </View>
-          </View>
-
-          <View style={styles.heroContent}>
-            <Text style={styles.heroTagline}>Discover. Explore. Experience.</Text>
-            <Text style={styles.heroTitle}>
-              Explore the Beauty,{'\n'}History & Culture{'\n'}of Ghana
-            </Text>
-          </View>
-
-          <View style={styles.searchRow}>
-            <View style={styles.searchBar}>
-              <Text style={styles.searchIcon}>🔍</Text>
-              <TextInput
-                placeholder="Search tourist sites, cities, hotels..."
-                placeholderTextColor={C.textMuted}
-                style={styles.searchInput}
-                value={searchText}
-                onChangeText={setSearchText}
-              />
-              {searchText.length > 0 && (
-                <TouchableOpacity onPress={() => setSearchText('')}>
-                  <Text style={{ fontSize: 16, color: C.textMuted }}>✕</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-            <TouchableOpacity style={styles.filterBtn}>
-              <Text style={styles.filterIcon}>⚙</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <HeroBanner searchText={searchText} setSearchText={setSearchText} />
 
         <View style={styles.body}>
 
@@ -253,7 +340,7 @@ export default function HomeScreen({ navigation }) {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Popular Destinations</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('Explore')}>
                 <Text style={styles.viewAll}>View All ›</Text>
               </TouchableOpacity>
             </View>
@@ -286,23 +373,26 @@ export default function HomeScreen({ navigation }) {
                     />
                     {item.isPremium && (
                       <View style={styles.premiumBadge}>
-                        <Text style={styles.premiumBadgeText}>👑 Premium</Text>
+                        <Text style={styles.premiumBadgeText}>Premium</Text>
                       </View>
                     )}
                     <TouchableOpacity style={styles.heartBtn}>
                       <Text style={styles.heartIcon}>♡</Text>
                     </TouchableOpacity>
                     <View style={styles.siteCardInfo}>
-                      <Text style={styles.siteCardName} numberOfLines={1}>{item.name}</Text>
-                      <Text style={styles.siteCardDesc} numberOfLines={2}>{item.description}</Text>
+                      <Text style={styles.siteCardName} numberOfLines={1}>
+                        {item.name}
+                      </Text>
+                      <Text style={styles.siteCardDesc} numberOfLines={2}>
+                        {item.description}
+                      </Text>
                       <View style={styles.siteCardMeta}>
-                        <Text style={styles.locationPin}>📍</Text>
                         <Text style={styles.siteCardLocation} numberOfLines={1}>
                           {item.location}
                         </Text>
                       </View>
                       <View style={styles.siteCardBottom}>
-                        <Text style={styles.ratingText}>⭐ {item.rating}</Text>
+                        <Text style={styles.ratingText}>★ {item.rating}</Text>
                         <Text style={styles.feeText}>{item.entryFee}</Text>
                       </View>
                     </View>
@@ -313,58 +403,10 @@ export default function HomeScreen({ navigation }) {
           </View>
 
           {/* PREMIUM BANNER */}
-          <View style={styles.premiumBanner}>
-            <View style={styles.premiumLeft}>
-              <Text style={styles.premiumCrown}>👑</Text>
-              <Text style={styles.premiumTitle}>Unlock the True{'\n'}History of Ghana</Text>
-              <Text style={styles.premiumDesc}>
-                Subscribe to access in-depth history, 3D tours, VR experiences and more.
-              </Text>
-              <TouchableOpacity style={styles.premiumBtn}>
-                <Text style={styles.premiumBtnText}>Go Premium  ›</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.premiumRight}>
-              <Image
-                source={{ uri: 'https://images.unsplash.com/photo-1608037521244-f1c6c7635194?w=400&q=80' }}
-                style={styles.premiumImage}
-                resizeMode="cover"
-              />
-              <View style={styles.premiumTag3D}>
-                <Text style={styles.premiumTag3DText}>3D</Text>
-              </View>
-            </View>
-          </View>
+          <PremiumBanner />
 
           {/* QUICK ACTIONS */}
-          <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { paddingHorizontal: 16, marginBottom: 14 }]}>
-              What would you like to do?
-            </Text>
-            <View style={styles.quickActionsRow}>
-              {QUICK_ACTIONS.map((action) => (
-  <TouchableOpacity
-    key={action.id}
-    style={styles.quickAction}
-    activeOpacity={0.75}
-    onPress={() => {
-      if (action.id === 'talk' || action.id === 'message') {
-        navigation.navigate('GuideList');
-      } else if (action.id === 'hotels' || action.id === 'stays') {
-        console.log('Navigate to Hotels');
-      } else if (action.id === 'map') {
-        console.log('Navigate to Map');
-      }
-    }}
-  >
-                  <View style={styles.quickActionIcon}>
-                    <Text style={styles.quickActionEmoji}>{action.icon}</Text>
-                  </View>
-                  <Text style={styles.quickActionLabel}>{action.label}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
+          <QuickActions navigation={navigation} />
 
           <View style={{ height: 100 }} />
         </View>
@@ -373,39 +415,67 @@ export default function HomeScreen({ navigation }) {
   );
 }
 
+// ─── STYLES ──────────────────────────────────────────────────────────────────
+
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: C.bg },
 
-  heroContainer: { width: '100%', height: 490 },
-  heroImage: { width: '100%', height: '100%', position: 'absolute' },
+  // Hero
+  heroContainer: {
+    width: '100%',
+    height: 300,
+  },
+  heroImage: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
   heroOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.45)',
+    backgroundColor: 'rgba(0,0,0,0.50)',
   },
   heroTop: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 54,
+    paddingTop: 48,
   },
-  menuIcon:   { fontSize: 22, color: C.white },
+  menuBtn:    { padding: 4 },
+  menuIcon:   { fontSize: 20, color: C.white },
   logoWrap:   { flexDirection: 'row', alignItems: 'baseline' },
-  logoHidden: { fontSize: 20, color: C.white, fontStyle: 'italic', fontWeight: '600' },
-  logoGhana:  { fontSize: 22, color: C.accent, fontWeight: '800', letterSpacing: 1 },
+  logoHidden: { fontSize: 18, color: C.white, fontStyle: 'italic', fontWeight: '600' },
+  logoGhana:  { fontSize: 20, color: C.accent, fontWeight: '800', letterSpacing: 1 },
   heroTopRight: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  bellIcon:   { fontSize: 20 },
-  avatar:     { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: C.white },
-
-  heroContent:  { paddingHorizontal: 20, paddingTop: 44 },
-  heroTagline:  { fontSize: 11, color: 'rgba(255,255,255,0.75)', letterSpacing: 1.5, marginBottom: 8 },
-  heroTitle:    { fontSize: 28, fontWeight: '700', color: C.white, lineHeight: 36 },
-
+  bellIcon:   { fontSize: 18 },
+  avatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: C.white,
+  },
+  heroContent: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+  },
+  heroTagline: {
+    fontSize: 10,
+    color: 'rgba(255,255,255,0.75)',
+    letterSpacing: 1.5,
+    marginBottom: 6,
+  },
+  heroTitle: {
+    fontSize: 22,
+    fontWeight: '800',
+    color: C.white,
+    lineHeight: 28,
+  },
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 30,
+    paddingTop: 16,
     gap: 10,
   },
   searchBar: {
@@ -414,25 +484,62 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.92)',
     borderRadius: 28,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 9,
     gap: 8,
   },
-  searchIcon:  { fontSize: 16 },
+  searchIcon:  { fontSize: 14 },
   searchInput: { flex: 1, fontSize: 13, color: C.textPrimary },
   filterBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: C.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  filterIcon: { fontSize: 18, color: C.white },
+  filterIcon: { fontSize: 16, color: C.white },
 
+  // Stats row
+  statsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 20,
+    marginTop: 14,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+  },
+  statItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  statDivider: {
+    width: 0.5,
+    height: 24,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+  },
+  statNumber: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: C.white,
+  },
+  statLabel: {
+    fontSize: 10,
+    color: 'rgba(255,255,255,0.7)',
+    marginTop: 2,
+  },
+
+  // Body
   body: { flex: 1 },
 
-  pillsRow: { paddingHorizontal: 16, paddingVertical: 16, gap: 8 },
+  // Category pills
+  pillsRow: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    gap: 8,
+  },
   pill: {
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -445,7 +552,8 @@ const styles = StyleSheet.create({
   pillText:       { fontSize: 13, color: C.textSecondary, fontWeight: '500' },
   pillTextActive: { color: C.white },
 
-  section:       { marginBottom: 24 },
+  // Section
+  section: { marginBottom: 24 },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -466,6 +574,7 @@ const styles = StyleSheet.create({
   loadingText: { fontSize: 13, color: C.textMuted },
   emptyText:   { fontSize: 13, color: C.textMuted, paddingHorizontal: 16 },
 
+  // Site card
   siteCard: {
     width: 200,
     borderRadius: 14,
@@ -500,53 +609,65 @@ const styles = StyleSheet.create({
   siteCardInfo:     { padding: 10 },
   siteCardName:     { fontSize: 13, fontWeight: '700', color: C.textPrimary, marginBottom: 4 },
   siteCardDesc:     { fontSize: 11, color: C.textSecondary, lineHeight: 15, marginBottom: 6 },
-  siteCardMeta:     { flexDirection: 'row', alignItems: 'center', gap: 3, marginBottom: 6 },
-  locationPin:      { fontSize: 11 },
+  siteCardMeta:     { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
   siteCardLocation: { fontSize: 11, color: C.textMuted, flex: 1 },
   siteCardBottom:   { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   ratingText:       { fontSize: 11, color: C.textSecondary, fontWeight: '600' },
   feeText:          { fontSize: 11, color: C.primary, fontWeight: '700' },
 
+  // Premium banner
   premiumBanner: {
     marginHorizontal: 16,
     marginBottom: 24,
     borderRadius: 16,
     backgroundColor: '#0F3D22',
     flexDirection: 'row',
-    overflow: 'hidden',
-    minHeight: 160,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    gap: 10,
   },
-  premiumLeft:   { flex: 1, padding: 18, justifyContent: 'center' },
-  premiumCrown:  { fontSize: 22, marginBottom: 6 },
-  premiumTitle:  { fontSize: 16, fontWeight: '800', color: C.white, lineHeight: 22, marginBottom: 6 },
-  premiumDesc:   { fontSize: 11, color: 'rgba(255,255,255,0.7)', lineHeight: 16, marginBottom: 14 },
+  premiumLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    gap: 10,
+  },
+  premiumCrown:    { fontSize: 28 },
+  premiumTextWrap: { flex: 1 },
+  premiumTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: C.white,
+    marginBottom: 3,
+    lineHeight: 18,
+  },
+  premiumDesc: {
+    fontSize: 11,
+    color: 'rgba(255,255,255,0.65)',
+    lineHeight: 15,
+  },
   premiumBtn: {
     backgroundColor: C.accent,
     borderRadius: 20,
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
     paddingVertical: 8,
-    alignSelf: 'flex-start',
+    flexShrink: 0,
   },
-  premiumBtnText: { fontSize: 12, fontWeight: '700', color: C.black },
-  premiumRight:   { width: 130 },
-  premiumImage:   { width: '100%', height: '100%' },
-  premiumTag3D: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+  premiumBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: C.black,
   },
-  premiumTag3DText: { fontSize: 12, fontWeight: '800', color: C.white },
 
+  // Quick actions
   quickActionsRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingHorizontal: 12,
   },
-  quickAction:      { alignItems: 'center', gap: 8 },
+  quickAction:     { alignItems: 'center', gap: 8 },
   quickActionIcon: {
     width: 54,
     height: 54,
