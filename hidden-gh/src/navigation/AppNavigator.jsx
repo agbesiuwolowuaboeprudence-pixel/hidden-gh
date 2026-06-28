@@ -11,19 +11,9 @@ import ExploreScreen from '../screens/ExploreScreen';
 import SiteDetailScreen from '../screens/SiteDetailScreen';
 import GuideListScreen from '../screens/GuideListScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import BookingsScreen from '../screens/BookingsScreen';
 
 // ─── PLACEHOLDER SCREENS ─────────────────────────────────────────────────────
-
-function BookingsScreen() {
-  return (
-    <View style={ph.container}>
-      <Text style={ph.icon}>🏨</Text>
-      <Text style={ph.title}>Bookings</Text>
-      <Text style={ph.sub}>Coming soon</Text>
-    </View>
-  );
-}
-
 
 
 // ─── TAB ICONS ───────────────────────────────────────────────────────────────
@@ -35,7 +25,6 @@ function TabIcon({ emoji, label, focused }) {
     </View>
   );
 }
-
 
 
 // ─── NAVIGATORS ──────────────────────────────────────────────────────────────
