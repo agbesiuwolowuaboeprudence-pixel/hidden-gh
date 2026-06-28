@@ -9,6 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from '../screens/HomeScreen';
 import ExploreScreen from '../screens/ExploreScreen';
 import SiteDetailScreen from '../screens/SiteDetailScreen';
+import GuideListScreen from '../screens/GuideListScreen';
 
 // ─── PLACEHOLDER SCREENS ─────────────────────────────────────────────────────
 function ScanScreen() {
@@ -137,6 +138,7 @@ export default function AppNavigator() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Main" component={HomeTabs} />
           <Stack.Screen name="SiteDetail" component={SiteDetailScreen} />
+          <Stack.Screen name="GuideList" component={GuideListScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

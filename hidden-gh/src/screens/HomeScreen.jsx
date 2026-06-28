@@ -343,11 +343,20 @@ export default function HomeScreen({ navigation }) {
             </Text>
             <View style={styles.quickActionsRow}>
               {QUICK_ACTIONS.map((action) => (
-                <TouchableOpacity
-                  key={action.id}
-                  style={styles.quickAction}
-                  activeOpacity={0.75}
-                >
+  <TouchableOpacity
+    key={action.id}
+    style={styles.quickAction}
+    activeOpacity={0.75}
+    onPress={() => {
+      if (action.id === 'talk' || action.id === 'message') {
+        navigation.navigate('GuideList');
+      } else if (action.id === 'hotels' || action.id === 'stays') {
+        console.log('Navigate to Hotels');
+      } else if (action.id === 'map') {
+        console.log('Navigate to Map');
+      }
+    }}
+  >
                   <View style={styles.quickActionIcon}>
                     <Text style={styles.quickActionEmoji}>{action.icon}</Text>
                   </View>
