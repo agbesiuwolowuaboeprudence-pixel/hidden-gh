@@ -10,6 +10,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ExploreScreen from '../screens/ExploreScreen';
 import SiteDetailScreen from '../screens/SiteDetailScreen';
 import GuideListScreen from '../screens/GuideListScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 // ─── PLACEHOLDER SCREENS ─────────────────────────────────────────────────────
 
@@ -23,15 +24,7 @@ function BookingsScreen() {
   );
 }
 
-function ProfileScreen() {
-  return (
-    <View style={ph.container}>
-      <Text style={ph.icon}>👤</Text>
-      <Text style={ph.title}>Profile</Text>
-      <Text style={ph.sub}>Coming soon</Text>
-    </View>
-  );
-}
+
 
 // ─── TAB ICONS ───────────────────────────────────────────────────────────────
 function TabIcon({ emoji, label, focused }) {
