@@ -6,18 +6,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // ─── SCREEN IMPORTS ──────────────────────────────────────────────────────────
-import HomeScreen from '../screens/HomeScreen';
-import ExploreScreen from '../screens/ExploreScreen';
+import OnboardingScreen from '../screens/OnboardingScreen';
+import LoginScreen      from '../screens/LoginScreen';
+import HomeScreen       from '../screens/HomeScreen';
+import ExploreScreen    from '../screens/ExploreScreen';
 import SiteDetailScreen from '../screens/SiteDetailScreen';
-import GuideListScreen from '../screens/GuideListScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import BookingsScreen from '../screens/BookingsScreen';
-import MapScreen from '../screens/MapScreen';
-
-// ─── PLACEHOLDER SCREENS ─────────────────────────────────────────────────────
-
+import GuideListScreen  from '../screens/GuideListScreen';
+import ProfileScreen    from '../screens/ProfileScreen';
+import BookingsScreen   from '../screens/BookingsScreen';
+import MapScreen        from '../screens/MapScreen';
 
 // ─── TAB ICONS ───────────────────────────────────────────────────────────────
+
 function TabIcon({ emoji, label, focused }) {
   return (
     <View style={tb.wrap}>
@@ -27,24 +27,24 @@ function TabIcon({ emoji, label, focused }) {
   );
 }
 
-
 // ─── NAVIGATORS ──────────────────────────────────────────────────────────────
-const Tab = createBottomTabNavigator();
+
+const Tab   = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function HomeTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
+        headerShown:      false,
+        tabBarShowLabel:  false,
         tabBarStyle: {
           backgroundColor: '#FFFFFF',
-          borderTopColor: '#E8E8E8',
-          borderTopWidth: 0.5,
-          height: 70,
-          paddingBottom: 10,
-          paddingTop: 6,
+          borderTopColor:  '#E8E8E8',
+          borderTopWidth:  0.5,
+          height:          70,
+          paddingBottom:   10,
+          paddingTop:      6,
         },
       }}
     >
@@ -67,15 +67,15 @@ function HomeTabs() {
         }}
       />
       <Tab.Screen
-  name="Guides"
-  component={GuideListScreen}
-  options={{
-    tabBarIcon: ({ focused }) => (
-      <TabIcon emoji="🧭" label="Guides" focused={focused} />
-    ),
-  }}
-/>
- <Tab.Screen
+        name="Guides"
+        component={GuideListScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon emoji="🧭" label="Guides" focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Map"
         component={MapScreen}
         options={{
@@ -85,14 +85,14 @@ function HomeTabs() {
         }}
       />
       <Tab.Screen
-  name="Bookings"
-  component={BookingsScreen}
-  options={{
-    tabBarIcon: ({ focused }) => (
-      <TabIcon emoji="🛒" label="Bookings" focused={focused} />
-    ),
-  }}
-/>
+        name="Bookings"
+        component={BookingsScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon emoji="🛒" label="Bookings" focused={focused} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
@@ -106,14 +106,23 @@ function HomeTabs() {
   );
 }
 
+// ─── APP NAVIGATOR ────────────────────────────────────────────────────────────
+
 export default function AppNavigator() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Main" component={HomeTabs} />
+
+          {/* Auth flow — Onboarding MUST be first */}
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          <Stack.Screen name="Login"      component={LoginScreen} />
+
+          {/* Main app */}
+          <Stack.Screen name="Main"       component={HomeTabs} />
           <Stack.Screen name="SiteDetail" component={SiteDetailScreen} />
-          <Stack.Screen name="GuideList" component={GuideListScreen} />
+          <Stack.Screen name="GuideList"  component={GuideListScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
@@ -121,6 +130,7 @@ export default function AppNavigator() {
 }
 
 // ─── STYLES ──────────────────────────────────────────────────────────────────
+
 const tb = StyleSheet.create({
   wrap: {
     alignItems: 'center',
@@ -143,26 +153,6 @@ const tb = StyleSheet.create({
     color: '#1B5E3B',
     fontWeight: '700',
   },
-  scanOuter: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  scanInner: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#1B5E3B',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
-  },
-  scanFocused: {
-    backgroundColor: '#F5A623',
-  },
-  scanEmoji: {
-    fontSize: 24,
-  },
 });
 
 const ph = StyleSheet.create({
@@ -173,16 +163,7 @@ const ph = StyleSheet.create({
     backgroundColor: '#F8F7F2',
     gap: 10,
   },
-  icon: {
-    fontSize: 48,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#1A1A1A',
-  },
-  sub: {
-    fontSize: 14,
-    color: '#A0A0A0',
-  },
+  icon:  { fontSize: 48 },
+  title: { fontSize: 20, fontWeight: '700', color: '#1A1A1A' },
+  sub:   { fontSize: 14, color: '#A0A0A0' },
 });

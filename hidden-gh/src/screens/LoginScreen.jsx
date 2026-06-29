@@ -119,22 +119,52 @@ export default function LoginScreen({ navigation }) {
     >
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
 
-      {/* Hero image top */}
-      <View style={styles.heroWrap}>
-        <Image
-          source={{ uri: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80' }}
-          style={styles.heroImage}
-          resizeMode="cover"
-        />
-        <View style={styles.heroOverlay} />
-        <View style={styles.heroContent}>
-          <View style={styles.logoRow}>
-            <Text style={styles.logoText}>Hidden </Text>
-            <Text style={styles.logoAccent}>GH★NA</Text>
-          </View>
-          <Text style={styles.heroTagline}>Discover. Explore. Experience.</Text>
-        </View>
+     {/* Colorful hero top */}
+<View style={styles.heroWrap}>
+  {/* Colorful blocks */}
+  <View style={styles.colorBlock1} />
+  <View style={styles.colorBlock2} />
+  <View style={styles.colorBlock3} />
+  <View style={styles.colorBlock4} />
+
+  {/* Pattern dots */}
+  <View style={styles.patternDot1} />
+  <View style={styles.patternDot2} />
+  <View style={styles.patternDot3} />
+  <View style={styles.patternDot4} />
+  <View style={styles.patternDot5} />
+  <View style={styles.patternDot6} />
+
+  {/* Logo and tagline */}
+  <View style={styles.heroContent}>
+    <View style={styles.logoBadgeWrap}>
+      <Text style={styles.logoBadgeHidden}>Hidden </Text>
+      <Text style={styles.logoBadgeAccent}>GH★NA</Text>
+    </View>
+    <Text style={styles.heroTagline}>Discover. Explore. Experience.</Text>
+    <Text style={styles.heroSub}>
+      Ghana's #1 tourism app — explore{'\n'}history, culture and nature.
+    </Text>
+
+    {/* Stats row */}
+    <View style={styles.heroStats}>
+      <View style={styles.heroStatItem}>
+        <Text style={styles.heroStatNumber}>200+</Text>
+        <Text style={styles.heroStatLabel}>Sites</Text>
       </View>
+      <View style={styles.heroStatDivider} />
+      <View style={styles.heroStatItem}>
+        <Text style={styles.heroStatNumber}>50+</Text>
+        <Text style={styles.heroStatLabel}>Guides</Text>
+      </View>
+      <View style={styles.heroStatDivider} />
+      <View style={styles.heroStatItem}>
+        <Text style={styles.heroStatNumber}>16</Text>
+        <Text style={styles.heroStatLabel}>Regions</Text>
+      </View>
+    </View>
+  </View>
+</View>
 
       <ScrollView
         style={styles.formScroll}

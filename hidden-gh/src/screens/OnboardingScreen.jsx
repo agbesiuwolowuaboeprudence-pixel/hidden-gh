@@ -15,15 +15,10 @@ const { width, height } = Dimensions.get('window');
 // ─── COLORS ──────────────────────────────────────────────────────────────────
 
 const C = {
-  primary:       '#1B5E3B',
-  primaryDark:   '#0F3D22',
-  accent:        '#F5A623',
-  white:         '#FFFFFF',
-  black:         '#111111',
-  bg:            '#F8F7F2',
-  textPrimary:   '#1A1A1A',
-  textSecondary: '#6B6B6B',
-  textMuted:     '#A0A0A0',
+  primary: '#1B5E3B',
+  accent:  '#F5A623',
+  white:   '#FFFFFF',
+  black:   '#000000',
 };
 
 // ─── SLIDES DATA ─────────────────────────────────────────────────────────────
@@ -31,52 +26,99 @@ const C = {
 const SLIDES = [
   {
     id: '1',
-    title: 'Discover Hidden\nGhana',
-    subtitle: 'Explore over 200 tourist sites, cultural landmarks and natural wonders across all 16 regions of Ghana.',
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
-    accent: '#1B5E3B',
+    badge:    'Historical Sites',
+    title:    "Explore Ghana's\nHidden Treasures",
+    subtitle: 'From ancient castles to untouched landscapes — discover the real Ghana.',
+    image:    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+    isLast:   false,
   },
   {
     id: '2',
-    title: 'Connect with\nLocal Guides',
-    subtitle: 'Video call or message certified local guides who bring Ghana\'s history and culture to life.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80',
-    accent: '#0F3D22',
+    badge:    'Waterfalls & Parks',
+    title:    'Discover History,\nCulture & Nature',
+    subtitle: 'Wli Waterfalls, Kakum Canopy, and sacred traditions await you.',
+    image:    'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=800&q=80',
+    isLast:   false,
   },
   {
     id: '3',
-    title: 'Book Hotels\n& Stays',
-    subtitle: 'Find and book accommodation near every tourist site, from luxury resorts to authentic local stays.',
-    image: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800&q=80',
-    accent: '#1B5E3B',
+    badge:    'Expert Guides',
+    title:    'Connect With\nLocal Experts',
+    subtitle: 'Our certified tour guides bring every story to life with authentic perspective.',
+    image:    'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80',
+    isLast:   false,
   },
   {
     id: '4',
-    title: 'Unlock Premium\nExperiences',
-    subtitle: 'Access in-depth history, 3D site exploration and immersive VR tours of Ghana\'s greatest landmarks.',
-    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80',
-    accent: '#0F3D22',
+    badge:    '3D & VR Tours',
+    title:    'Experience Ghana\nBefore You Travel',
+    subtitle: 'Explore destinations in immersive 3D and VR before setting foot there.',
+    image:    'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80',
+    isLast:   true,
   },
 ];
 
 // ─── SLIDE ITEM ───────────────────────────────────────────────────────────────
 
-function SlideItem({ item }) {
+function SlideItem({ item, currentIndex, onNext, onSkip, onGetStarted }) {
   return (
     <View style={[styles.slide, { width }]}>
+
+      {/* Full screen background image */}
       <Image
         source={{ uri: item.image }}
         style={styles.slideImage}
         resizeMode="cover"
       />
+
+      {/* Dark overlay */}
       <View style={styles.slideOverlay} />
-      <View style={styles.slideContent}>
-        <View style={styles.logoBadge}>
-          <Text style={styles.logoBadgeText}>Hidden </Text>
-          <Text style={styles.logoBadgeAccent}>GH★NA</Text>
+
+      {/* Top row — badge + skip */}
+      <View style={styles.topRow}>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{item.badge}</Text>
         </View>
-        <Text style={styles.slideTitle}>{item.title}</Text>
-        <Text style={styles.slideSubtitle}>{item.subtitle}</Text>
+        <TouchableOpacity style={styles.skipBtn} onPress={onSkip}>
+          <Text style={styles.skipText}>Skip</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Bottom content */}
+      <View style={styles.bottomContent}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.subtitle}>{item.subtitle}</Text>
+
+        {/* Dots + button row */}
+        <View style={styles.controlsRow}>
+
+          {/* Dots */}
+          <View style={styles.dotsRow}>
+            {SLIDES.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  index === currentIndex && styles.dotActive,
+                ]}
+              />
+            ))}
+          </View>
+
+          {/* Button */}
+          {item.isLast ? (
+            <TouchableOpacity
+              style={styles.getStartedBtn}
+              onPress={onGetStarted}
+            >
+              <Text style={styles.getStartedBtnText}>Get Started  ›</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.nextBtn} onPress={onNext}>
+              <Text style={styles.nextBtnText}>Next  ›</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -88,101 +130,45 @@ export default function OnboardingScreen({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
 
-  const handleNext = () => {
+  const goToNext = () => {
     if (currentIndex < SLIDES.length - 1) {
-      flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      navigation.replace('Login');
+      const nextIndex = currentIndex + 1;
+      flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+      setCurrentIndex(nextIndex);
     }
   };
 
-  const handleSkip = () => {
-    navigation.replace('Login');
-  };
-
-  const handleGetStarted = () => {
-    navigation.replace('Login');
-  };
+  const goToLogin = () => navigation.replace('Login');
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
-      setCurrentIndex(viewableItems[0].index);
+      setCurrentIndex(viewableItems[0].index ?? 0);
     }
   }).current;
-
-  const isLastSlide = currentIndex === SLIDES.length - 1;
 
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
-
-      {/* Skip button */}
-      {!isLastSlide && (
-        <TouchableOpacity style={styles.skipBtn} onPress={handleSkip}>
-          <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
-      )}
-
-      {/* Slides */}
       <FlatList
         ref={flatListRef}
         data={SLIDES}
         keyExtractor={(item) => item.id}
         horizontal
         pagingEnabled
+        scrollEnabled
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
-        renderItem={({ item }) => <SlideItem item={item} />}
-      />
-
-      {/* Bottom controls */}
-      <View style={styles.bottomControls}>
-
-        {/* Dots */}
-        <View style={styles.dotsRow}>
-          {SLIDES.map((_, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                flatListRef.current?.scrollToIndex({ index });
-                setCurrentIndex(index);
-              }}
-            >
-              <View style={[
-                styles.dot,
-                index === currentIndex && styles.dotActive,
-              ]} />
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* Action button */}
-        {isLastSlide ? (
-          <View style={styles.lastSlideActions}>
-            <TouchableOpacity
-              style={styles.getStartedBtn}
-              onPress={handleGetStarted}
-            >
-              <Text style={styles.getStartedBtnText}>Get Started</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.loginLinkBtn}
-              onPress={() => navigation.replace('Login')}
-            >
-              <Text style={styles.loginLinkText}>
-                Already have an account?{' '}
-                <Text style={styles.loginLinkAccent}>Sign In</Text>
-              </Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
-            <Text style={styles.nextBtnText}>Next  →</Text>
-          </TouchableOpacity>
+        renderItem={({ item }) => (
+          <SlideItem
+            item={item}
+            currentIndex={currentIndex}
+            onNext={goToNext}
+            onSkip={goToLogin}
+            onGetStarted={goToLogin}
+          />
         )}
-      </View>
+      />
     </View>
   );
 }
@@ -192,68 +178,96 @@ export default function OnboardingScreen({ navigation }) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: C.black },
 
-  // Skip
-  skipBtn: {
-    position: 'absolute',
-    top: 54,
-    right: 20,
-    zIndex: 10,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  skipText: { fontSize: 13, color: C.white, fontWeight: '600' },
-
   // Slide
-  slide:        { flex: 1, height },
-  slideImage:   { width: '100%', height: '100%', position: 'absolute' },
+  slide: {
+    width,
+    height,
+    position: 'relative',
+  },
+  slideImage: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
   slideOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.55)',
-  },
-  slideContent: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingHorizontal: 28,
-    paddingBottom: 180,
-  },
-  logoBadge: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginBottom: 20,
-  },
-  logoBadgeText:   { fontSize: 16, color: C.white, fontStyle: 'italic', fontWeight: '600' },
-  logoBadgeAccent: { fontSize: 18, color: C.accent, fontWeight: '800', letterSpacing: 1 },
-  slideTitle: {
-    fontSize: 36,
-    fontWeight: '800',
-    color: C.white,
-    lineHeight: 44,
-    marginBottom: 16,
-  },
-  slideSubtitle: {
-    fontSize: 15,
-    color: 'rgba(255,255,255,0.80)',
-    lineHeight: 24,
+    backgroundColor: 'rgba(0,0,0,0.45)',
   },
 
-  // Bottom controls
-  bottomControls: {
+  // Top row
+  topRow: {
+    position: 'absolute',
+    top: 54,
+    left: 20,
+    right: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  // Badge
+  badge: {
+    borderWidth: 1.5,
+    borderColor: C.accent,
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  badgeText: {
+    fontSize: 12,
+    color: C.accent,
+    fontWeight: '700',
+  },
+
+  // Skip
+  skipBtn: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    paddingHorizontal: 16,
+    paddingVertical: 7,
+    borderRadius: 20,
+  },
+  skipText: {
+    fontSize: 13,
+    color: C.white,
+    fontWeight: '600',
+  },
+
+  // Bottom content
+  bottomContent: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    paddingHorizontal: 28,
-    paddingTop: 24,
-    paddingBottom: 48,
-    gap: 20,
+    paddingHorizontal: 24,
+    paddingBottom: 52,
   },
+  title: {
+    fontSize: 34,
+    fontWeight: '800',
+    color: C.white,
+    lineHeight: 42,
+    marginBottom: 12,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: 'rgba(255,255,255,0.78)',
+    lineHeight: 23,
+    marginBottom: 32,
+  },
+
+  // Controls row
+  controlsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  // Dots
   dotsRow: {
     flexDirection: 'row',
     gap: 8,
-    justifyContent: 'center',
+    alignItems: 'center',
   },
   dot: {
     width: 8,
@@ -262,29 +276,39 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.35)',
   },
   dotActive: {
-    width: 24,
+    width: 28,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: C.accent,
   },
 
   // Next button
   nextBtn: {
     backgroundColor: C.primary,
-    paddingVertical: 16,
-    borderRadius: 16,
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    borderRadius: 30,
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  nextBtnText: { fontSize: 16, color: C.white, fontWeight: '700' },
+  nextBtnText: {
+    fontSize: 15,
+    color: C.white,
+    fontWeight: '700',
+  },
 
-  // Last slide
-  lastSlideActions: { gap: 14 },
+  // Get started button
   getStartedBtn: {
     backgroundColor: C.accent,
-    paddingVertical: 16,
-    borderRadius: 16,
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    borderRadius: 30,
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  getStartedBtnText: { fontSize: 16, color: C.black, fontWeight: '800' },
-  loginLinkBtn:      { alignItems: 'center' },
-  loginLinkText:     { fontSize: 14, color: 'rgba(255,255,255,0.7)' },
-  loginLinkAccent:   { color: C.accent, fontWeight: '700' },
+  getStartedBtnText: {
+    fontSize: 15,
+    color: C.black,
+    fontWeight: '800',
+  },
 });
