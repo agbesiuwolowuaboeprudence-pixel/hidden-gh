@@ -6,11 +6,8 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  Dimensions,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-
-const { width, height } = Dimensions.get('window');
 
 // ─── COLORS ──────────────────────────────────────────────────────────────────
 
@@ -29,7 +26,7 @@ const C = {
   premium:       '#C9A84C',
 };
 
-// ─── GHANA TOURIST SITES WITH COORDINATES ────────────────────────────────────
+// ─── DATA ────────────────────────────────────────────────────────────────────
 
 const SITES = [
   {
@@ -154,7 +151,7 @@ const CATEGORY_COLORS = {
   Cultural:   '#6A1B9A',
 };
 
-// ─── BUILD HTML FOR LEAFLET MAP ───────────────────────────────────────────────
+// ─── BUILD MAP HTML ───────────────────────────────────────────────────────────
 
 function buildMapHTML(sites, selectedSite) {
   const markers = sites.map((site) => `
@@ -168,52 +165,28 @@ function buildMapHTML(sites, selectedSite) {
     })
     .addTo(map)
     .bindPopup(\`
-      <div style="
-        font-family: sans-serif;
-        min-width: 180px;
-        padding: 4px;
-      ">
-        <div style="
-          font-size: 14px;
-          font-weight: 800;
-          color: #1A1A1A;
-          margin-bottom: 4px;
-        ">${site.name}</div>
-        <div style="
-          font-size: 11px;
-          color: #6B6B6B;
-          margin-bottom: 6px;
-        ">${site.location}</div>
-        <div style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        ">
-          <span style="
-            background: #E8F5EE;
-            color: #1B5E3B;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 10px;
-          ">${site.category}</span>
-          <span style="
-            font-size: 12px;
-            font-weight: 800;
-            color: #1B5E3B;
-          ">${site.entryFee}</span>
+      <div style="font-family:sans-serif;min-width:180px;padding:4px;">
+        <div style="font-size:14px;font-weight:800;color:#1A1A1A;margin-bottom:4px;">
+          ${site.name}
         </div>
-        <div style="
-          margin-top: 6px;
-          font-size: 12px;
-          color: #F5A623;
-          font-weight: 700;
-        ">★ ${site.rating}</div>
+        <div style="font-size:11px;color:#6B6B6B;margin-bottom:6px;">
+          ${site.location}
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="background:#E8F5EE;color:#1B5E3B;font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;">
+            ${site.category}
+          </span>
+          <span style="font-size:12px;font-weight:800;color:#1B5E3B;">
+            ${site.entryFee}
+          </span>
+        </div>
+        <div style="margin-top:6px;font-size:12px;color:#F5A623;font-weight:700;">
+          ★ ${site.rating}
+        </div>
       </div>
     \`);
   `).join('\n');
 
-  // Center map on Ghana
   const centerLat = selectedSite ? selectedSite.lat : 7.9465;
   const centerLng = selectedSite ? selectedSite.lng : -1.0232;
   const zoom      = selectedSite ? 12 : 7;
@@ -222,12 +195,12 @@ function buildMapHTML(sites, selectedSite) {
     <!DOCTYPE html>
     <html>
     <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
       <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
       <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body, #map { width: 100%; height: 100%; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html, body, #map { width:100%; height:100%; }
       </style>
     </head>
     <body>
@@ -271,9 +244,7 @@ export default function MapScreen({ navigation }) {
       <View style={styles.header}>
         <View>
           <Text style={styles.headerTitle}>Explore Map</Text>
-          <Text style={styles.headerSub}>
-            {filteredSites.length} sites on map
-          </Text>
+          <Text style={styles.headerSub}>{filteredSites.length} sites on map</Text>
         </View>
         <TouchableOpacity
           style={styles.listToggleBtn}
@@ -285,49 +256,41 @@ export default function MapScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
+      {/* ── CATEGORY PILLS ── */}
       <View style={styles.pillsContainer}>
-  <ScrollView
-    horizontal
-    showsHorizontalScrollIndicator={false}
-    contentContainerStyle={styles.pillsRow}
-  >
-    {/* buttons code */}
-  </ScrollView>
-</View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.pillsRow}
+        >
+          {CATEGORIES.map((cat) => (
+            <TouchableOpacity
+              key={cat}
+              onPress={() => {
+                setSelectedCategory(cat);
+                setSelectedSite(null);
+              }}
+              style={[
+                styles.pill,
+                selectedCategory === cat && styles.pillActive,
+                cat !== 'All' && selectedCategory === cat && {
+                  backgroundColor: CATEGORY_COLORS[cat],
+                  borderColor: CATEGORY_COLORS[cat],
+                },
+              ]}
+            >
+              <Text style={[
+                styles.pillText,
+                selectedCategory === cat && styles.pillTextActive,
+              ]}>
+                {cat}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
 
-      {/* ── CATEGORY FILTER ── */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.pillsRow}
-      >
-        {CATEGORIES.map((cat) => (
-          <TouchableOpacity
-            key={cat}
-            onPress={() => {
-              setSelectedCategory(cat);
-              setSelectedSite(null);
-            }}
-            style={[
-              styles.pill,
-              selectedCategory === cat && styles.pillActive,
-              cat !== 'All' && selectedCategory === cat && {
-                backgroundColor: CATEGORY_COLORS[cat],
-                borderColor: CATEGORY_COLORS[cat],
-              },
-            ]}
-          >
-            <Text style={[
-              styles.pillText,
-              selectedCategory === cat && styles.pillTextActive,
-            ]}>
-              {cat}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
-      {/* ── MAP ── */}
+      {/* ── MAP VIEW ── */}
       {!showList && (
         <View style={styles.mapContainer}>
           <WebView
@@ -356,7 +319,7 @@ export default function MapScreen({ navigation }) {
         </View>
       )}
 
-      {/* ── SITE LIST (when showList is true) ── */}
+      {/* ── LIST VIEW ── */}
       {showList && (
         <ScrollView
           style={styles.siteList}
@@ -376,10 +339,7 @@ export default function MapScreen({ navigation }) {
               }}
               activeOpacity={0.85}
             >
-              <View style={[
-                styles.siteColorDot,
-                { backgroundColor: site.color },
-              ]} />
+              <View style={[styles.siteColorDot, { backgroundColor: site.color }]} />
               <View style={styles.siteInfo}>
                 <Text style={styles.siteName}>{site.name}</Text>
                 <Text style={styles.siteLocation}>{site.location}</Text>
@@ -403,7 +363,7 @@ export default function MapScreen({ navigation }) {
         </ScrollView>
       )}
 
-      {/* ── SELECTED SITE CARD (bottom sheet) ── */}
+      {/* ── SELECTED SITE BOTTOM CARD ── */}
       {selectedSite && !showList && (
         <View style={styles.selectedCard}>
           <View style={styles.selectedCardTop}>
@@ -422,8 +382,10 @@ export default function MapScreen({ navigation }) {
               <Text style={styles.selectedCloseText}>✕</Text>
             </TouchableOpacity>
           </View>
+
           <Text style={styles.selectedName}>{selectedSite.name}</Text>
           <Text style={styles.selectedLocation}>{selectedSite.location}</Text>
+
           <View style={styles.selectedMeta}>
             <View style={styles.selectedMetaItem}>
               <Text style={styles.selectedMetaLabel}>Entry Fee</Text>
@@ -440,6 +402,7 @@ export default function MapScreen({ navigation }) {
               <Text style={styles.selectedMetaValue}>{selectedSite.category}</Text>
             </View>
           </View>
+
           <View style={styles.selectedActions}>
             <TouchableOpacity
               style={styles.selectedViewBtn}
@@ -484,45 +447,33 @@ const styles = StyleSheet.create({
 
   // Pills
   pillsContainer: {
-    height: 36,
+    height: 44,
+    justifyContent: 'center',
     backgroundColor: C.bg,
   },
   pillsRow: {
-  paddingHorizontal: 16,
-  paddingVertical: 2,
-  gap: 6,
-},
-pill: {
-  alignItems: 'center',
-  justifyContent: 'center',
-  paddingHorizontal: 14,
-  paddingVertical: 0,  // ← Change to 0
-  height: 32,  // ← ADD THIS - compact height
-  borderRadius: 8,  // ← Smaller radius
-  backgroundColor: C.card,
-  borderWidth: 1,  // ← Reduce border
-  borderColor: C.border,
-},
-pillActive: { 
-  backgroundColor: C.primary, 
-  borderColor: C.primary 
-},
-pillText: { 
-  fontSize: 10,  // ← Smaller font
-  color: C.textSecondary, 
-  fontWeight: '600',
-  lineHeight: 12,  // ← Add this for proper centering
-},
-pillTextActive: { 
-  color: C.white, 
-  fontWeight: '700' 
-},
-  // Map
-  mapContainer: {
-    flex: 1,
-    position: 'relative',
+    paddingHorizontal: 16,
+    gap: 8,
+    alignItems: 'center',
+    height: 44,
   },
-  map: { flex: 1 },
+  pill: {
+    height: 30,
+    paddingHorizontal: 14,
+    borderRadius: 15,
+    backgroundColor: C.card,
+    borderWidth: 1,
+    borderColor: C.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pillActive:     { backgroundColor: C.primary, borderColor: C.primary },
+  pillText:       { fontSize: 12, color: C.textSecondary, fontWeight: '600' },
+  pillTextActive: { color: C.white, fontWeight: '700' },
+
+  // Map
+  mapContainer: { flex: 1, position: 'relative' },
+  map:          { flex: 1 },
   mapLoading: {
     flex: 1,
     alignItems: 'center',
@@ -546,16 +497,8 @@ pillTextActive: {
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  legendDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-  },
+  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  legendDot:  { width: 10, height: 10, borderRadius: 5 },
   legendText: { fontSize: 11, color: C.textPrimary, fontWeight: '500' },
 
   // Site list
@@ -571,32 +514,15 @@ pillTextActive: {
     borderColor: C.border,
     gap: 12,
   },
-  siteRowActive: {
-    borderColor: C.primary,
-    borderWidth: 1.5,
-  },
-  siteColorDot: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-    flexShrink: 0,
-  },
-  siteInfo:     { flex: 1 },
-  siteName:     { fontSize: 14, fontWeight: '700', color: C.textPrimary, marginBottom: 3 },
-  siteLocation: { fontSize: 11, color: C.textMuted, marginBottom: 6 },
-  siteMeta: {
-    flexDirection: 'row',
-    gap: 10,
-    alignItems: 'center',
-  },
-  siteCategory: {
-    fontSize: 10,
-    color: C.primary,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-  },
-  siteRating: { fontSize: 11, color: C.accent, fontWeight: '700' },
-  siteFee:    { fontSize: 11, color: C.textSecondary, fontWeight: '600' },
+  siteRowActive:  { borderColor: C.primary, borderWidth: 1.5 },
+  siteColorDot:   { width: 14, height: 14, borderRadius: 7, flexShrink: 0 },
+  siteInfo:       { flex: 1 },
+  siteName:       { fontSize: 14, fontWeight: '700', color: C.textPrimary, marginBottom: 3 },
+  siteLocation:   { fontSize: 11, color: C.textMuted, marginBottom: 6 },
+  siteMeta:       { flexDirection: 'row', gap: 10, alignItems: 'center' },
+  siteCategory:   { fontSize: 10, color: C.primary, fontWeight: '700', textTransform: 'uppercase' },
+  siteRating:     { fontSize: 11, color: C.accent, fontWeight: '700' },
+  siteFee:        { fontSize: 11, color: C.textSecondary, fontWeight: '600' },
   siteDirectionBtn: {
     backgroundColor: C.primary,
     paddingHorizontal: 12,
@@ -605,7 +531,7 @@ pillTextActive: {
   },
   siteDirectionBtnText: { fontSize: 12, color: C.white, fontWeight: '700' },
 
-  // Selected site card
+  // Selected card
   selectedCard: {
     position: 'absolute',
     bottom: 0,
@@ -656,10 +582,7 @@ pillTextActive: {
   selectedMetaDivider: { width: 0.5, backgroundColor: C.border },
   selectedMetaLabel:   { fontSize: 10, color: C.textMuted, marginBottom: 4 },
   selectedMetaValue:   { fontSize: 14, fontWeight: '800', color: C.textPrimary },
-  selectedActions: {
-    flexDirection: 'row',
-    gap: 10,
-  },
+  selectedActions:     { flexDirection: 'row', gap: 10 },
   selectedViewBtn: {
     flex: 1,
     backgroundColor: C.primary,
