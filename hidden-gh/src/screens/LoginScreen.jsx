@@ -5,28 +5,27 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image,
   StatusBar,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 
-// ─── COLORS ──────────────────────────────────────────────────────────────────
+// ─── GHANA FLAG COLORS ─────────────────────────────────────────────────────
 
 const C = {
-  primary:       '#1B5E3B',
-  primaryDark:   '#0F3D22',
-  accent:        '#F5A623',
-  white:         '#FFFFFF',
-  black:         '#111111',
-  bg:            '#F8F7F2',
-  card:          '#FFFFFF',
-  textPrimary:   '#1A1A1A',
+  ghanaRed:    '#CE1126',
+  ghanaGold:   '#FCD116',
+  ghanaGreen:  '#006B3F',
+  black:       '#111111',
+  white:       '#FFFFFF',
+  bg:          '#F8F7F2',
+  card:        '#FFFFFF',
+  textPrimary: '#1A1A1A',
   textSecondary: '#6B6B6B',
-  textMuted:     '#A0A0A0',
-  border:        '#E8E8E8',
-  error:         '#E53935',
+  textMuted:   '#A0A0A0',
+  border:      '#E8E8E8',
+  error:       '#E53935',
 };
 
 // ─── INPUT COMPONENT ─────────────────────────────────────────────────────────
@@ -69,13 +68,13 @@ function InputField({ label, placeholder, value, onChangeText, secureTextEntry, 
 // ─── MAIN SCREEN ─────────────────────────────────────────────────────────────
 
 export default function LoginScreen({ navigation }) {
-  const [isLogin, setIsLogin]       = useState(true);
-  const [email, setEmail]           = useState('');
-  const [password, setPassword]     = useState('');
-  const [name, setName]             = useState('');
-  const [confirm, setConfirm]       = useState('');
-  const [errors, setErrors]         = useState({});
-  const [loading, setLoading]       = useState(false);
+  const [isLogin, setIsLogin]   = useState(true);
+  const [email, setEmail]       = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName]         = useState('');
+  const [confirm, setConfirm]   = useState('');
+  const [errors, setErrors]     = useState({});
+  const [loading, setLoading]   = useState(false);
 
   const validate = () => {
     const newErrors = {};
@@ -119,52 +118,35 @@ export default function LoginScreen({ navigation }) {
     >
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
 
-     {/* Colorful hero top */}
-<View style={styles.heroWrap}>
-  {/* Colorful blocks */}
-  <View style={styles.colorBlock1} />
-  <View style={styles.colorBlock2} />
-  <View style={styles.colorBlock3} />
-  <View style={styles.colorBlock4} />
+      {/* ── GHANA COLOR HEADER ── */}
+      <View style={styles.header}>
 
-  {/* Pattern dots */}
-  <View style={styles.patternDot1} />
-  <View style={styles.patternDot2} />
-  <View style={styles.patternDot3} />
-  <View style={styles.patternDot4} />
-  <View style={styles.patternDot5} />
-  <View style={styles.patternDot6} />
+        {/* Flag stripe background */}
+        <View style={styles.flagRed} />
+        <View style={styles.flagGold} />
+        <View style={styles.flagGreen} />
 
-  {/* Logo and tagline */}
-  <View style={styles.heroContent}>
-    <View style={styles.logoBadgeWrap}>
-      <Text style={styles.logoBadgeHidden}>Hidden </Text>
-      <Text style={styles.logoBadgeAccent}>GH★NA</Text>
-    </View>
-    <Text style={styles.heroTagline}>Discover. Explore. Experience.</Text>
-    <Text style={styles.heroSub}>
-      Ghana's #1 tourism app — explore{'\n'}history, culture and nature.
-    </Text>
+        {/* Black star */}
+        <View style={styles.starWrap}>
+          <Text style={styles.starIcon}>★</Text>
+        </View>
 
-    {/* Stats row */}
-    <View style={styles.heroStats}>
-      <View style={styles.heroStatItem}>
-        <Text style={styles.heroStatNumber}>200+</Text>
-        <Text style={styles.heroStatLabel}>Sites</Text>
+        {/* Decorative circles */}
+        <View style={styles.circle1} />
+        <View style={styles.circle2} />
+        <View style={styles.circle3} />
+
+        {/* Bold logo */}
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoHidden}>HIDDEN</Text>
+          <Text style={styles.logoGhana}>GH★NA</Text>
+          <View style={styles.taglineWrap}>
+            <View style={styles.taglineDash} />
+            <Text style={styles.tagline}>DISCOVER · EXPLORE · EXPERIENCE</Text>
+            <View style={styles.taglineDash} />
+          </View>
+        </View>
       </View>
-      <View style={styles.heroStatDivider} />
-      <View style={styles.heroStatItem}>
-        <Text style={styles.heroStatNumber}>50+</Text>
-        <Text style={styles.heroStatLabel}>Guides</Text>
-      </View>
-      <View style={styles.heroStatDivider} />
-      <View style={styles.heroStatItem}>
-        <Text style={styles.heroStatNumber}>16</Text>
-        <Text style={styles.heroStatLabel}>Regions</Text>
-      </View>
-    </View>
-  </View>
-</View>
 
       <ScrollView
         style={styles.formScroll}
@@ -238,14 +220,12 @@ export default function LoginScreen({ navigation }) {
           />
         )}
 
-        {/* Forgot password */}
         {isLogin && (
           <TouchableOpacity style={styles.forgotBtn}>
             <Text style={styles.forgotText}>Forgot Password?</Text>
           </TouchableOpacity>
         )}
 
-        {/* Submit button */}
         <TouchableOpacity
           style={[styles.submitBtn, loading && styles.submitBtnLoading]}
           onPress={handleSubmit}
@@ -256,14 +236,12 @@ export default function LoginScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
 
-        {/* Divider */}
         <View style={styles.dividerRow}>
           <View style={styles.dividerLine} />
           <Text style={styles.dividerText}>or continue with</Text>
           <View style={styles.dividerLine} />
         </View>
 
-        {/* Social buttons */}
         <View style={styles.socialRow}>
           <TouchableOpacity style={styles.socialBtn} onPress={handleSubmit}>
             <Text style={styles.socialBtnText}>G  Google</Text>
@@ -273,7 +251,6 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* Guest login */}
         <TouchableOpacity style={styles.guestBtn} onPress={handleGuestLogin}>
           <Text style={styles.guestBtnText}>Continue as Guest</Text>
         </TouchableOpacity>
@@ -289,27 +266,133 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: C.bg },
 
-  // Hero
-  heroWrap:    { height: 220, position: 'relative' },
-  heroImage:   { width: '100%', height: '100%', position: 'absolute' },
-  heroOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.55)',
+  // ── Header ──
+  header: {
+    height: 280,
+    position: 'relative',
+    overflow: 'hidden',
+    backgroundColor: C.ghanaGreen,
   },
-  heroContent: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingHorizontal: 24,
-    paddingBottom: 24,
-  },
-  logoRow:    { flexDirection: 'row', alignItems: 'baseline', marginBottom: 6 },
-  logoText:   { fontSize: 22, color: C.white, fontStyle: 'italic', fontWeight: '600' },
-  logoAccent: { fontSize: 24, color: C.accent, fontWeight: '800', letterSpacing: 1 },
-  heroTagline:{ fontSize: 13, color: 'rgba(255,255,255,0.75)', letterSpacing: 1 },
 
-  // Form
+  // Flag stripes (horizontal bands like Ghana flag)
+  flagRed: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '34%',
+    backgroundColor: C.ghanaRed,
+  },
+  flagGold: {
+    position: 'absolute',
+    top: '34%',
+    left: 0,
+    right: 0,
+    height: '32%',
+    backgroundColor: C.ghanaGold,
+  },
+  flagGreen: {
+    position: 'absolute',
+    top: '66%',
+    left: 0,
+    right: 0,
+    height: '34%',
+    backgroundColor: C.ghanaGreen,
+  },
+
+  // Black star
+  starWrap: {
+    position: 'absolute',
+    top: '34%',
+    left: 0,
+    right: 0,
+    height: '32%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  starIcon: {
+    fontSize: 26,
+    color: C.black,
+  },
+
+  // Decorative circles overlay for depth
+  circle1: {
+    position: 'absolute',
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: 'rgba(0,0,0,0.08)',
+    top: -50,
+    right: -30,
+  },
+  circle2: {
+    position: 'absolute',
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: 'rgba(255,255,255,0.10)',
+    bottom: -20,
+    left: -20,
+  },
+  circle3: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'rgba(0,0,0,0.06)',
+    bottom: 30,
+    right: 30,
+  },
+
+  // Logo
+  logoContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoHidden: {
+    fontSize: 18,
+    color: C.white,
+    fontWeight: '700',
+    letterSpacing: 6,
+    marginBottom: 2,
+    textShadowColor: 'rgba(0,0,0,0.3)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 6,
+  },
+  logoGhana: {
+    fontSize: 46,
+    color: C.white,
+    fontWeight: '900',
+    letterSpacing: 3,
+    textShadowColor: 'rgba(0,0,0,0.35)',
+    textShadowOffset: { width: 0, height: 3 },
+    textShadowRadius: 8,
+  },
+  taglineWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 12,
+  },
+  taglineDash: {
+    width: 16,
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.6)',
+  },
+  tagline: {
+    fontSize: 10,
+    color: 'rgba(255,255,255,0.85)',
+    letterSpacing: 1.5,
+    fontWeight: '600',
+  },
+
+  // ── Form ──
   formScroll:    { flex: 1 },
-  formContainer: { paddingHorizontal: 24, paddingTop: 24 },
+  formContainer: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+  },
 
   // Tab toggle
   tabToggle: {
@@ -327,7 +410,7 @@ const styles = StyleSheet.create({
   },
   tabBtnActive:     { backgroundColor: C.white },
   tabBtnText:       { fontSize: 14, color: C.textMuted, fontWeight: '600' },
-  tabBtnTextActive: { color: C.primary, fontWeight: '700' },
+  tabBtnTextActive: { color: C.ghanaGreen, fontWeight: '700' },
 
   // Input
   inputWrap:  { marginBottom: 16 },
@@ -343,19 +426,19 @@ const styles = StyleSheet.create({
     borderColor: C.border,
     gap: 10,
   },
-  inputBoxFocused: { borderColor: C.primary },
+  inputBoxFocused: { borderColor: C.ghanaGreen },
   inputBoxError:   { borderColor: C.error },
   input:           { flex: 1, fontSize: 14, color: C.textPrimary },
   eyeIcon:         { fontSize: 18 },
   errorText:       { fontSize: 12, color: C.error, marginTop: 4, marginLeft: 4 },
 
   // Forgot
-  forgotBtn: { alignSelf: 'flex-end', marginBottom: 20, marginTop: -8 },
-  forgotText: { fontSize: 13, color: C.primary, fontWeight: '600' },
+  forgotBtn:  { alignSelf: 'flex-end', marginBottom: 20, marginTop: -8 },
+  forgotText: { fontSize: 13, color: C.ghanaGreen, fontWeight: '600' },
 
   // Submit
   submitBtn: {
-    backgroundColor: C.primary,
+    backgroundColor: C.ghanaGreen,
     paddingVertical: 16,
     borderRadius: 16,
     alignItems: 'center',

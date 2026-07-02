@@ -71,7 +71,7 @@ const SITES = [
     lng: -0.1469,
     entryFee: 'GHS 40',
     rating: 4.5,
-    color: '#1565C0',
+    color: '#0d58af',
   },
   {
     id: '5',

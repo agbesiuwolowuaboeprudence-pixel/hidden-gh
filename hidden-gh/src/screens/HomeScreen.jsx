@@ -137,10 +137,8 @@ const CATEGORIES = ['All', 'Historical', 'Nature', 'Wildlife', 'Beach', 'Cultura
 
 const QUICK_ACTIONS = [
   { id: 'talk',    icon: '🎥', label: 'Talk to\na Guide' },
-  { id: 'message', icon: '💬', label: 'Message\na Guide' },
   { id: 'hotels',  icon: '🏨', label: 'Book\nHotels' },
   { id: 'stays',   icon: '🏡', label: 'Guide\nStays' },
-  { id: 'map',     icon: '📍', label: 'View\nMap' },
 ];
 
 // ─── HERO BANNER ─────────────────────────────────────────────────────────────
