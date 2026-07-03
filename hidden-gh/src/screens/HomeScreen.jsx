@@ -11,6 +11,7 @@ import {
   Dimensions,
   FlatList,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -32,7 +33,7 @@ const C = {
   premium:       '#C9A84C',
 };
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
+// ─── FALLBACK SITES ───────────────────────────────────────────────────────────
 
 const FALLBACK_SITES = [
   {
@@ -139,7 +140,188 @@ const QUICK_ACTIONS = [
   { id: 'talk',    icon: '🎥', label: 'Talk to\na Guide' },
   { id: 'hotels',  icon: '🏨', label: 'Book\nHotels' },
   { id: 'stays',   icon: '🏡', label: 'Guide\nStays' },
+  { id: 'map',     icon: '📍', label: 'View\nMap' },
 ];
+
+// ─── HOTELS DATA ─────────────────────────────────────────────────────────────
+
+const HOTELS = [
+  {
+    id: 'h1',
+    name: 'Kempinski Hotel Gold Coast',
+    location: 'Accra, Greater Accra',
+    type: 'Luxury Hotel',
+    rating: 4.9,
+    reviews: 1240,
+    price: 'GHS 850/night',
+    image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80',
+    amenities: ['Pool', 'Spa', 'WiFi', 'Gym', 'Restaurant'],
+    nearSites: 'Kwame Nkrumah Memorial · Labadi Beach',
+    available: true,
+    featured: true,
+  },
+  {
+    id: 'h2',
+    name: 'Elmina Beach Resort',
+    location: 'Elmina, Central Region',
+    type: 'Beach Resort',
+    rating: 4.7,
+    reviews: 654,
+    price: 'GHS 420/night',
+    image: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600&q=80',
+    amenities: ['Beach Access', 'Pool', 'WiFi', 'Restaurant'],
+    nearSites: 'Elmina Castle · Cape Coast Castle',
+    available: true,
+    featured: true,
+  },
+  {
+    id: 'h3',
+    name: 'Labadi Beach Hotel',
+    location: 'Accra, Greater Accra',
+    type: 'Beach Hotel',
+    rating: 4.6,
+    reviews: 892,
+    price: 'GHS 380/night',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',
+    amenities: ['Beach Access', 'Pool', 'WiFi', 'Tennis'],
+    nearSites: 'Labadi Beach · Arts Centre',
+    available: true,
+    featured: false,
+  },
+  {
+    id: 'h4',
+    name: 'Mole Motel',
+    location: 'Mole National Park, Savannah',
+    type: 'Safari Lodge',
+    rating: 4.5,
+    reviews: 423,
+    price: 'GHS 250/night',
+    image: 'https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=600&q=80',
+    amenities: ['Pool', 'WiFi', 'Restaurant', 'Safari Tours'],
+    nearSites: 'Mole National Park · Larabanga Mosque',
+    available: true,
+    featured: true,
+  },
+  {
+    id: 'h5',
+    name: 'Golden Tulip Kumasi City',
+    location: 'Kumasi, Ashanti Region',
+    type: 'City Hotel',
+    rating: 4.4,
+    reviews: 567,
+    price: 'GHS 310/night',
+    image: 'https://images.unsplash.com/photo-1580746738099-b2d424ea3bc8?w=600&q=80',
+    amenities: ['Pool', 'WiFi', 'Gym', 'Restaurant'],
+    nearSites: 'Manhyia Palace · Lake Bosomtwe',
+    available: true,
+    featured: false,
+  },
+];
+
+// ─── HOTELS MODAL ─────────────────────────────────────────────────────────────
+
+function HotelsModal({ visible, onClose }) {
+  return (
+    <Modal
+      visible={visible}
+      animationType="slide"
+      transparent
+      onRequestClose={onClose}
+    >
+      <View style={mStyles.overlay}>
+        <TouchableOpacity
+          style={mStyles.backdrop}
+          onPress={onClose}
+          activeOpacity={1}
+        />
+        <View style={mStyles.sheet}>
+
+          <View style={mStyles.handle} />
+
+          <View style={mStyles.header}>
+            <View>
+              <Text style={mStyles.headerTitle}>Hotels & Stays</Text>
+              <Text style={mStyles.headerSub}>
+                {HOTELS.length} options across Ghana
+              </Text>
+            </View>
+            <TouchableOpacity style={mStyles.closeBtn} onPress={onClose}>
+              <Text style={mStyles.closeBtnText}>✕</Text>
+            </TouchableOpacity>
+          </View>
+
+          <FlatList
+            data={HOTELS}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={mStyles.listContainer}
+            renderItem={({ item }) => (
+              <View style={mStyles.card}>
+                <View style={mStyles.cardImageWrap}>
+                  <Image
+                    source={{ uri: item.image }}
+                    style={mStyles.cardImage}
+                    resizeMode="cover"
+                  />
+                  {item.featured && (
+                    <View style={mStyles.featuredBadge}>
+                      <Text style={mStyles.featuredBadgeText}>Featured</Text>
+                    </View>
+                  )}
+                  <View style={mStyles.typeBadge}>
+                    <Text style={mStyles.typeBadgeText}>{item.type}</Text>
+                  </View>
+                </View>
+
+                <View style={mStyles.cardBody}>
+                  <View style={mStyles.cardTop}>
+                    <View style={mStyles.cardTopLeft}>
+                      <Text style={mStyles.cardName} numberOfLines={1}>
+                        {item.name}
+                      </Text>
+                      <Text style={mStyles.cardLocation}>{item.location}</Text>
+                    </View>
+                    <View style={mStyles.priceWrap}>
+                      <Text style={mStyles.priceText}>{item.price}</Text>
+                    </View>
+                  </View>
+
+                  <View style={mStyles.ratingRow}>
+                    <Text style={mStyles.ratingStars}>
+                      {'★'.repeat(Math.floor(item.rating))}
+                    </Text>
+                    <Text style={mStyles.ratingNumber}>{item.rating}</Text>
+                    <Text style={mStyles.ratingReviews}>
+                      ({item.reviews} reviews)
+                    </Text>
+                  </View>
+
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={mStyles.amenitiesRow}
+                  >
+                    {item.amenities.map((a) => (
+                      <View key={a} style={mStyles.amenityBadge}>
+                        <Text style={mStyles.amenityText}>{a}</Text>
+                      </View>
+                    ))}
+                  </ScrollView>
+
+                  <Text style={mStyles.nearbyText}>Near: {item.nearSites}</Text>
+
+                  <TouchableOpacity style={mStyles.bookBtn}>
+                    <Text style={mStyles.bookBtnText}>Book Now</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
+        </View>
+      </View>
+    </Modal>
+  );
+}
 
 // ─── HERO BANNER ─────────────────────────────────────────────────────────────
 
@@ -244,7 +426,7 @@ function PremiumBanner() {
 
 // ─── QUICK ACTIONS ────────────────────────────────────────────────────────────
 
-function QuickActions({ navigation }) {
+function QuickActions({ navigation, onHotelsPress }) {
   return (
     <View style={styles.section}>
       <Text style={[styles.sectionTitle, { paddingHorizontal: 16, marginBottom: 14 }]}>
@@ -257,10 +439,10 @@ function QuickActions({ navigation }) {
             style={styles.quickAction}
             activeOpacity={0.75}
             onPress={() => {
-              if (action.id === 'talk' || action.id === 'message') {
+              if (action.id === 'talk') {
                 navigation.navigate('GuideList');
               } else if (action.id === 'hotels' || action.id === 'stays') {
-                navigation.navigate('Bookings');
+                onHotelsPress();
               } else if (action.id === 'map') {
                 navigation.navigate('Map');
               }
@@ -284,6 +466,7 @@ export default function HomeScreen({ navigation }) {
   const [sites]                                 = useState(FALLBACK_SITES);
   const [loading]                               = useState(false);
   const [searchText, setSearchText]             = useState('');
+  const [showHotels, setShowHotels]             = useState(false);
 
   const filteredSites =
     selectedCategory === 'All'
@@ -304,6 +487,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+
       <ScrollView showsVerticalScrollIndicator={false}>
 
         <HeroBanner searchText={searchText} setSearchText={setSearchText} />
@@ -407,11 +591,21 @@ export default function HomeScreen({ navigation }) {
           <PremiumBanner />
 
           {/* QUICK ACTIONS */}
-          <QuickActions navigation={navigation} />
+          <QuickActions
+            navigation={navigation}
+            onHotelsPress={() => setShowHotels(true)}
+          />
 
           <View style={{ height: 100 }} />
         </View>
       </ScrollView>
+
+      {/* HOTELS MODAL */}
+      <HotelsModal
+        visible={showHotels}
+        onClose={() => setShowHotels(false)}
+      />
+
     </View>
   );
 }
@@ -421,17 +615,9 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: C.bg },
 
-  // Hero
-  heroContainer: {
-    width: '100%',
-    height: 300,
-  },
-  heroImage: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-  },
-  heroOverlay: {
+  heroContainer: { width: '100%', height: 300 },
+  heroImage:     { width: '100%', height: '100%', position: 'absolute' },
+  heroOverlay:   {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.50)',
   },
@@ -447,12 +633,8 @@ const styles = StyleSheet.create({
   logoWrap:   { flexDirection: 'row', alignItems: 'baseline' },
   logoHidden: { fontSize: 18, color: C.white, fontStyle: 'italic', fontWeight: '600' },
   logoGhana:  { fontSize: 20, color: C.accent, fontWeight: '800', letterSpacing: 1 },
-  heroTopRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  bellIcon: { fontSize: 18 },
+  heroTopRight: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  bellIcon:   { fontSize: 18 },
   avatar: {
     width: 32,
     height: 32,
@@ -460,22 +642,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: C.white,
   },
-  heroContent: {
-    paddingHorizontal: 20,
-    paddingTop: 16,
-  },
+  heroContent: { paddingHorizontal: 20, paddingTop: 16 },
   heroTagline: {
     fontSize: 10,
     color: 'rgba(255,255,255,0.75)',
     letterSpacing: 1.5,
     marginBottom: 6,
   },
-  heroTitle: {
-    fontSize: 22,
-    fontWeight: '800',
-    color: C.white,
-    lineHeight: 28,
-  },
+  heroTitle: { fontSize: 22, fontWeight: '800', color: C.white, lineHeight: 28 },
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -505,7 +679,6 @@ const styles = StyleSheet.create({
   },
   filterIcon: { fontSize: 16, color: C.white },
 
-  // Stats row
   statsRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -516,41 +689,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 8,
   },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statDivider: {
-    width: 0.5,
-    height: 24,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-  },
-  statNumber: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: C.white,
-  },
-  statLabel: {
-    fontSize: 10,
-    color: 'rgba(255,255,255,0.7)',
-    marginTop: 2,
-  },
+  statItem:   { flex: 1, alignItems: 'center' },
+  statDivider:{ width: 0.5, height: 24, backgroundColor: 'rgba(255,255,255,0.3)' },
+  statNumber: { fontSize: 14, fontWeight: '800', color: C.white },
+  statLabel:  { fontSize: 10, color: 'rgba(255,255,255,0.7)', marginTop: 2 },
 
-  // Body
   body: { flex: 1 },
 
-  // Category pills
-  pillsContainer: {
-    height: 52,
-    justifyContent: 'center',
-    backgroundColor: C.bg,
-  },
-  pillsRow: {
-    paddingHorizontal: 16,
-    gap: 8,
-    alignItems: 'center',
-    height: 52,
-  },
+  pillsContainer: { height: 52, justifyContent: 'center', backgroundColor: C.bg },
+  pillsRow: { paddingHorizontal: 16, gap: 8, alignItems: 'center', height: 52 },
   pill: {
     height: 32,
     paddingHorizontal: 16,
@@ -565,8 +712,7 @@ const styles = StyleSheet.create({
   pillText:       { fontSize: 12, color: C.textSecondary, fontWeight: '600' },
   pillTextActive: { color: C.white, fontWeight: '700' },
 
-  // Section
-  section: { marginBottom: 24 },
+  section:       { marginBottom: 24 },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -587,7 +733,6 @@ const styles = StyleSheet.create({
   loadingText: { fontSize: 13, color: C.textMuted },
   emptyText:   { fontSize: 13, color: C.textMuted, paddingHorizontal: 16 },
 
-  // Site card
   siteCard: {
     width: 200,
     borderRadius: 14,
@@ -596,7 +741,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: C.border,
   },
-  siteCardImage: { width: '100%', height: 130 },
+  siteCardImage:    { width: '100%', height: 130 },
   premiumBadge: {
     position: 'absolute',
     top: 8,
@@ -628,7 +773,6 @@ const styles = StyleSheet.create({
   ratingText:       { fontSize: 11, color: C.textSecondary, fontWeight: '600' },
   feeText:          { fontSize: 11, color: C.primary, fontWeight: '700' },
 
-  // Premium banner
   premiumBanner: {
     marginHorizontal: 16,
     marginBottom: 24,
@@ -641,12 +785,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     gap: 10,
   },
-  premiumLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-    gap: 10,
-  },
+  premiumLeft:     { flexDirection: 'row', alignItems: 'center', flex: 1, gap: 10 },
   premiumCrown:    { fontSize: 28 },
   premiumTextWrap: { flex: 1 },
   premiumTitle: {
@@ -668,19 +807,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     flexShrink: 0,
   },
-  premiumBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: C.black,
-  },
+  premiumBtnText: { fontSize: 12, fontWeight: '700', color: C.black },
 
-  // Quick actions
   quickActionsRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingHorizontal: 12,
   },
-  quickAction: { alignItems: 'center', gap: 8 },
+  quickAction:      { alignItems: 'center', gap: 8 },
   quickActionIcon: {
     width: 54,
     height: 54,
@@ -697,4 +831,138 @@ const styles = StyleSheet.create({
     lineHeight: 15,
     fontWeight: '500',
   },
+});
+
+// ─── MODAL STYLES ─────────────────────────────────────────────────────────────
+
+const mStyles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  sheet: {
+    backgroundColor: '#F8F7F2',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: '90%',
+    paddingBottom: 30,
+  },
+  handle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#D0D0D0',
+    alignSelf: 'center',
+    marginTop: 12,
+    marginBottom: 4,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#E8E8E8',
+  },
+  headerTitle: { fontSize: 18, fontWeight: '800', color: '#1A1A1A' },
+  headerSub:   { fontSize: 12, color: '#A0A0A0', marginTop: 2 },
+  closeBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F0F0F0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeBtnText: { fontSize: 14, color: '#6B6B6B', fontWeight: '700' },
+
+  listContainer: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 20 },
+
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    marginBottom: 16,
+    overflow: 'hidden',
+    borderWidth: 0.5,
+    borderColor: '#E8E8E8',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+  },
+  cardImageWrap: { height: 160, position: 'relative' },
+  cardImage:     { width: '100%', height: '100%' },
+  featuredBadge: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    backgroundColor: '#F5A623',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 10,
+  },
+  featuredBadgeText: { fontSize: 11, color: '#111', fontWeight: '700' },
+  typeBadge: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 10,
+  },
+  typeBadgeText: { fontSize: 11, color: '#FFF', fontWeight: '600' },
+
+  cardBody:    { padding: 14 },
+  cardTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 6,
+  },
+  cardTopLeft: { flex: 1, marginRight: 8 },
+  cardName:    { fontSize: 15, fontWeight: '800', color: '#1A1A1A', marginBottom: 3 },
+  cardLocation:{ fontSize: 11, color: '#A0A0A0' },
+  priceWrap: {
+    backgroundColor: '#E8F5EE',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  priceText: { fontSize: 12, fontWeight: '800', color: '#1B5E3B' },
+
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginBottom: 10,
+  },
+  ratingStars:   { fontSize: 12, color: '#F5A623' },
+  ratingNumber:  { fontSize: 12, fontWeight: '700', color: '#1A1A1A' },
+  ratingReviews: { fontSize: 11, color: '#A0A0A0' },
+
+  amenitiesRow:  { gap: 6, marginBottom: 10 },
+  amenityBadge: {
+    backgroundColor: '#E8F5EE',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  amenityText: { fontSize: 11, color: '#1B5E3B', fontWeight: '600' },
+
+  nearbyText: { fontSize: 11, color: '#6B6B6B', marginBottom: 12 },
+
+  bookBtn: {
+    backgroundColor: '#1B5E3B',
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  bookBtnText: { fontSize: 13, color: '#FFFFFF', fontWeight: '700' },
 });
