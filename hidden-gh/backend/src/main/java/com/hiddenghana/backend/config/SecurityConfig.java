@@ -35,14 +35,16 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/auth/**",
-                                "/api/sites/**",
-                                "/api/guides/**",
-                                "/api/hotels/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
+                      .requestMatchers(
+                             "/api/auth/**",
+                             "/api/sites/**",
+                             "/api/guides/**",
+                             "/api/hotels/**"
+                    ).permitAll()
+                    .requestMatchers("/api/bookings/**", "/api/users/**").authenticated()
+                    .anyRequest().authenticated()
                 )
+                
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

@@ -1,5 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
+import * as AuthSession from 'expo-auth-session';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import Constants from 'expo-constants';
+import { socialLogin } from '../services/authService';
+import { ApiError } from '../services/api';
+import { useAuthStore } from '../store/authStore';
+import { Alert } from 'react-native';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -104,13 +111,89 @@ export default function LoginScreen({ navigation }: Props) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const authLogin = useAuthStore((s) => s.login);
+  const authRegister = useAuthStore((s) => s.register);
+  const continueAsGuest = useAuthStore((s) => s.continueAsGuest);
+
+  const handleSubmit = async () => {
     if (!validate()) return;
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      if (isLogin) {
+        await authLogin({ email, password });
+      } else {
+        await authRegister({ fullName: name, email, password });
+      }
       navigation.replace('Main');
-    }, 800);
+    } catch (err) {
+      if (err instanceof ApiError) {
+        Alert.alert('Authentication failed', err.message);
+      } else if (err instanceof Error) {
+        Alert.alert('Error', err.message);
+      } else {
+        Alert.alert('Error', 'An unknown error occurred');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogle = async () => {
+    const googleClientId = (Constants.manifest as any)?.extra?.googleClientId || '';
+    if (!googleClientId) {
+      Alert.alert('Google Sign-In not configured', 'Set googleClientId in app config (app.json extra)');
+      return;
+    }
+
+    const redirectUri = AuthSession.makeRedirectUri({ useProxy: true });
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(
+      googleClientId
+    )}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=id_token&scope=openid%20email%20profile&nonce=${Math.random()
+      .toString(36)
+      .slice(2)}`;
+
+    try {
+      setLoading(true);
+      const result = await AuthSession.startAsync({ authUrl });
+      if (result.type === 'success' && (result as any).params?.id_token) {
+        const idToken = (result as any).params.id_token as string;
+        const user = await socialLogin('google', idToken);
+        useAuthStore.getState().setAuth(user);
+        navigation.replace('Main');
+      } else {
+        Alert.alert('Google Sign-In cancelled');
+      }
+    } catch (err) {
+      Alert.alert('Google Sign-In failed', (err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleApple = async () => {
+    try {
+      setLoading(true);
+      const available = await AppleAuthentication.isAvailableAsync();
+      if (!available) {
+        Alert.alert('Apple Sign-In not available on this device');
+        return;
+      }
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [AppleAuthentication.AppleAuthenticationScope.FULL_NAME, AppleAuthentication.AppleAuthenticationScope.EMAIL],
+      });
+      const idToken = (credential as any).identityToken as string | undefined;
+      if (!idToken) {
+        Alert.alert('Apple Sign-In failed', 'No identity token returned');
+        return;
+      }
+      const user = await socialLogin('apple', idToken);
+      useAuthStore.getState().setAuth(user);
+      navigation.replace('Main');
+    } catch (err) {
+      Alert.alert('Apple Sign-In failed', (err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -213,11 +296,16 @@ export default function LoginScreen({ navigation }: Props) {
         </View>
 
         <View style={styles.socialRow}>
-          <Pressable style={styles.socialBtn}>
+          <Pressable style={styles.socialBtn} onPress={handleGoogle}>
             <Ionicons name="logo-google" size={22} color={colors.textPrimary} />
           </Pressable>
-          <Pressable style={styles.socialBtn}>
+          <Pressable style={styles.socialBtn} onPress={handleApple}>
             <Ionicons name="logo-apple" size={22} color={colors.textPrimary} />
+          </Pressable>
+        </View>
+        <View style={{ alignItems: 'center', marginTop: spacing.md }}>
+          <Pressable onPress={() => { continueAsGuest(); navigation.replace('Main'); }}>
+            <Text style={{ ...typography.caption, color: colors.textMuted }}>Continue as guest</Text>
           </Pressable>
         </View>
       </ScrollView>

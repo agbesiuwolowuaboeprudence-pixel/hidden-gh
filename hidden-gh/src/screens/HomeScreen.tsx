@@ -355,7 +355,7 @@ const createStyles = (colors: Palette) => StyleSheet.create({
   quickRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: spacing.lg,
     marginBottom: spacing.lg,
   },
   quickAction: { alignItems: 'center', gap: spacing.sm, width: 72 },

@@ -1,5 +1,2 @@
-import { registerRootComponent } from 'expo';
-
-import App from './App';
-
-registerRootComponent(App);
+// Entry point is now handled by expo-router.
+// See "main": "expo-router/entry" in package.json.
