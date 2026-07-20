@@ -45,6 +45,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean isPremium = false;
 
+    @Lob
+    @Column(name = "avatar_data")
+    private byte[] avatarData;
+
+    @Column(name = "avatar_mime_type", length = 50)
+    private String avatarMimeType;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -68,6 +75,8 @@ public class User implements UserDetails {
         private String location;
         private Role role;
         private boolean isPremium;
+        private byte[] avatarData;
+        private String avatarMimeType;
 
         public UserBuilder fullName(String fullName) { this.fullName = fullName; return this; }
         public UserBuilder email(String email) { this.email = email; return this; }
@@ -76,6 +85,8 @@ public class User implements UserDetails {
         public UserBuilder location(String location) { this.location = location; return this; }
         public UserBuilder role(Role role) { this.role = role; return this; }
         public UserBuilder isPremium(boolean isPremium) { this.isPremium = isPremium; return this; }
+        public UserBuilder avatarData(byte[] avatarData) { this.avatarData = avatarData; return this; }
+        public UserBuilder avatarMimeType(String avatarMimeType) { this.avatarMimeType = avatarMimeType; return this; }
 
         public User build() {
             User user = new User();
@@ -86,6 +97,8 @@ public class User implements UserDetails {
             user.location = this.location;
             user.role = this.role;
             user.isPremium = this.isPremium;
+            user.avatarData = this.avatarData;
+            user.avatarMimeType = this.avatarMimeType;
             return user;
         }
     }
@@ -113,6 +126,12 @@ public class User implements UserDetails {
 
     public boolean isPremium() { return isPremium; }
     public void setPremium(boolean isPremium) { this.isPremium = isPremium; }
+
+    public byte[] getAvatarData() { return avatarData; }
+    public void setAvatarData(byte[] avatarData) { this.avatarData = avatarData; }
+
+    public String getAvatarMimeType() { return avatarMimeType; }
+    public void setAvatarMimeType(String avatarMimeType) { this.avatarMimeType = avatarMimeType; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
