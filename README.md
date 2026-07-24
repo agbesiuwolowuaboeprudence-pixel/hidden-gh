@@ -52,32 +52,6 @@ A mobile tourism app for discovering Ghanaian landmarks, connecting with local g
    </dependency>
 ```
 
-3. Create a `.env` file in this folder (never commit this file):
-```dotenv
-   # Database (Neon PostgreSQL)
-   DB_URL=jdbc:postgresql://<your-neon-host>/neondb?sslmode=require&channel_binding=require
-   DB_USERNAME=your_db_username
-   DB_PASSWORD=your_db_password
-
-   # JWT — generate a real secret with: openssl rand -base64 48
-   JWT_SECRET=your_generated_base64_secret
-   JWT_EXPIRATION_MS=86400000
-
-   # Email (SMTP)
-   MAIL_HOST=smtp.gmail.com
-   MAIL_PORT=587
-   MAIL_USERNAME=your_email@gmail.com
-   MAIL_PASSWORD=your_gmail_app_password
-
-   # App
-   APP_BASE_URL=http://localhost:8080
-
-   # CORS (comma-separated, no spaces after commas)
-   CORS_ALLOWED_ORIGINS=http://localhost:8081,exp://<your-local-ip>:8081
-
-   # Logging
-   LOG_LEVEL_SECURITY=INFO
-   LOG_LEVEL_APP=INFO
 
    # Schema management (use 'update' for local dev, 'validate' for prod)
    DDL_AUTO=update
