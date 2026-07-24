@@ -22,7 +22,7 @@ A mobile tourism app for discovering Ghanaian landmarks, connecting with local g
 **Backend**
 - Spring Boot 3.2.5 (Java 25)
 - Spring Security + JWT authentication
-- PostgreSQL (hosted on Neon)
+- Supabase
 - Hibernate / JPA
 - `spring-dotenv` for environment variable loading
 
